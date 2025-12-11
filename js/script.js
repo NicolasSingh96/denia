@@ -421,29 +421,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- EFECTO STICKY DEL CHAT ---
-document.addEventListener('scroll', () => {
-    const wrapper = document.getElementById('chat-wrapper');
-    const marquee = document.querySelector('.tech-marquee');
-    
-    if (wrapper && marquee) {
-        const scrollY = window.scrollY;
-        const marqueeTop = marquee.getBoundingClientRect().top + scrollY;
-        const wrapperHeight = wrapper.offsetHeight;
-        
-        // Ajuste de "tope": Para que frene un poco antes de tocar el marquee (ej: 50px)
-        const stopPoint = marqueeTop - wrapperHeight - 50;
-        
-        // Si estamos scrolleando pero aún no llegamos al tope...
-        if (scrollY < stopPoint) {
-            // Mover el chat hacia abajo siguiendo el scroll (Efecto Sticky)
-            // Multiplicamos por 0.9 para que tenga un efecto "parallax" sutil (se mueve un pelín más lento que tú)
-            // O usa scrollY * 1 para que sea totalmente fijo.
-            wrapper.style.transform = `translateY(${scrollY * 0.85}px)`; 
-        } else {
-            // Si llegamos al tope, lo dejamos quieto en esa posición final
-            wrapper.style.transform = `translateY(${stopPoint * 0.85}px)`;
-        }
-    }
-});
-    

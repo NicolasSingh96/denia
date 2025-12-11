@@ -356,12 +356,11 @@ h2 {
 #chat-wrapper {
     position: absolute;
     right: 0;
-    top: 15%;
+    top: 50%;
+    transform: translateY(-50%);
     width: 220px;
     height: auto;
     z-index: 10;
-    transition: transform 0.1s linear;
-    will-change: transform;
 }
 
 /* 4. Chat Card */
