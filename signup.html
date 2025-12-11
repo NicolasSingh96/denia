@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta - DenIA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="signup-body">
+
+    <canvas id="bg-canvas"></canvas>
+
+    <header style="position: relative; padding: 20px; width: 100%; z-index: 10;">
+        <div class="header-left">
+            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                <img src="assets/img/logo-denia-transparent.png" alt="Logo" style="height:40px;">
+                <span style="color:white; font-family:'Space Grotesk';">Volver al Inicio</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="form-wrapper">
+        
+        <div class="progress-container">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+            <div class="step-indicator active" data-step="1">1</div>
+            <div class="step-indicator" data-step="2">2</div>
+        </div>
+
+        <form id="multi-step-form" onsubmit="return false;">
+            
+            <div class="form-step active" id="step-1">
+                <h2>Crear Cuenta</h2>
+                <p>Datos personales para tu acceso.</p>
+                
+                <div class="row">
+                    <div class="input-group">
+                        <label>Nombre</label>
+                        <input type="text" id="nombre" placeholder="Juan" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Apellido</label>
+                        <input type="text" id="apellido" placeholder="Pérez" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="email" placeholder="juan@empresa.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Usuario (Alias)</label>
+                    <input type="text" id="username" placeholder="juan.denia" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <div class="form-step" id="step-2">
+                <h2>Método de Pago</h2>
+                <p>Configura tu suscripción para activar el servicio.</p>
+
+                <div class="credit-card-box">
+                    
+                    <div class="input-group">
+                        <label>Tipo de Tarjeta</label>
+                        <select id="card-type" required>
+                            <option value="" disabled selected>Seleccionar...</option>
+                            <option value="visa">Visa Crédito/Débito</option>
+                            <option value="master">Mastercard</option>
+                            <option value="amex">American Express</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Número de Tarjeta</label>
+                        <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>DNI / Documento del Titular</label>
+                        <input type="number" id="card-dni" placeholder="Sin puntos" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Vencimiento (MM/AA)</label>
+                            <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" required>
+                        </div>
+                        <div class="input-group">
+                            <label>CVV</label>
+                            <input type="password" id="card-cvv" placeholder="123" maxlength="4" required>
+                        </div>
+                    </div>
+                    
+                    <div class="secure-badge">🔒 Transacción Encriptada SSL</div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="prevBtn" class="btn-secondary" style="display:none;">Atrás</button>
+                <button type="button" id="nextBtn" class="btn-primary">Siguiente</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="/js/script.js"></script>
+    <script src="/js/signup.js"></script> </body>
+</html>

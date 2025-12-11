@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Cliente - DenIA</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="signup-body"> <canvas id="bg-canvas"></canvas>
+
+    <header style="position: absolute; width:100%; top:0; padding: 20px; z-index:100;">
+        <div class="header-left">
+            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                <img src="assets/img/logo-denia-transparent.png" alt="Logo" style="height:40px;">
+                <span style="color:white; font-family:'Space Grotesk'; font-weight:bold;">Volver al Home</span>
+            </a>
+        </div>
+    </header>
+
+    <div class="login-wrapper">
+        <div class="login-header">
+            <h2>Bienvenido de nuevo</h2>
+            <p>Accede al panel de control de tus Asistentes.</p>
+        </div>
+
+        <form id="login-form">
+            
+            <div class="input-group">
+                <label>Usuario</label>
+                <input type="usuario" id="login-usuario" placeholder="Usuario" required>
+            </div>
+
+            <div class="input-group password-group">
+                <label>Contraseña</label>
+                <div class="password-wrapper">
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                    <button type="button" class="toggle-password" onclick="togglePass()">
+                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="login-actions">
+                <label class="checkbox-container">
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                    Recordarme
+                </label>
+                <a href="#" class="forgot-pass">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit" id="loginBtn" class="btn-primary full-width" style="margin-top: 20px;">
+                Ingresar
+            </button>
+
+            <div class="login-footer">
+                ¿Aún no tienes cuenta? <a href="signup.html">Crear cuenta</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="/js/script.js"></script> 
+    <script src="/js/login.js"></script>  
+</body>
+</html>
