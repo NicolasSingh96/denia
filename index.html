@@ -156,71 +156,181 @@
 
     </div>
 </section>
-<section class="pricing-section">
+
+<section class="pricing-section" id="suscripcion">
     <div class="section-header">
-        <h3>INVERSIÓN INTELIGENTE</h3>
-        <h2>Elige el motor de tu <span class="text-highlight">crecimiento</span>.</h2>
+        <h3>SUSCRIPCIÓN MENSUAL</h3>
+        <h2>Elige el plan para tu negocio</h2>
+        
+        <div class="pricing-toggle">
+            <span class="currency-label active" id="label-ars">ARS 🇦🇷</span>
+            <label class="switch">
+                <input type="checkbox" id="currency-switch">
+                <span class="slider round"></span>
+            </label>
+            <span class="currency-label" id="label-usd">USD 🇺🇸</span>
+        </div>
     </div>
 
     <div class="pricing-container">
-        <div id="suscripcion" class="pricing-card">
-            <div class="plan-name">Plan Gratis</div>
-            <div class="plan-price">$0<span>/mes</span></div>
-            <p class="plan-desc">Podes probar DenIA durante 7 dias.</p>
-            <ul class="plan-features">
-                <li><span>✓</span> Hasta 10 artículos</li>
-                <li><span>✓</span> IA Avanzada</li>
-                <li><span>✓</span> Soporte por Email</li>
+        
+        <div class="pricing-card">
+            <div class="plan-name">Prueba Gratis</div>
+            <div class="plan-price">
+                <span class="currency-symbol">$</span>0
+                <span class="period">/ 7 días</span>
+            </div>
+            <p class="plan-desc">Vigencia: 7 días.</p>
+            <div class="item-limit">Hasta 10 artículos</div>
+            
+            <ul class="plan-features compact-list">
+                <li><span>✅</span> IA Avanzada</li>
+                <li><span>✅</span> Ventas minoristas</li>
+                <li class="disabled"><span>❌</span> Entrenamiento IA personalizado</li>
+                <li class="disabled"><span>❌</span> Ventas mayoristas</li>
+                <li class="disabled"><span>❌</span> Info detallada de ventas</li>
+                <li class="disabled"><span>❌</span> Lista de Art. modificable</li>
+                <li class="disabled"><span>❌</span> Soporte vía Tickets</li>
+                <li class="disabled"><span>❌</span> Soporte personalizado</li>
+                <li class="disabled"><span>❌</span> Derivación a operador (Handoff)</li>
+                <li class="disabled"><span>❌</span> Onboarding asistido</li>
+                <li class="disabled"><span>❌</span> Cobro integrado</li>
             </ul>
-            <a href="/signup.html" class="btn-secondary full-width">Comenzar</a>
+            <a href="signup.html" class="btn-secondary full-width">Probar Gratis</a>
+        </div>
+
+        <div class="pricing-card">
+            <div class="plan-name">Inicial</div>
+            <div class="plan-price" data-ars="15.000" data-usd="10">
+                <span class="currency-symbol">$</span><span class="amount">15.000</span>
+                <span class="period">/ mes</span>
+            </div>
+            <p class="plan-desc">Vigencia: Ilimitada.</p>
+            <div class="item-limit">Hasta 2.000 artículos</div>
+
+            <ul class="plan-features compact-list">
+                <li><span>✅</span> IA Avanzada</li>
+                <li><span>✅</span> Ventas minoristas</li>
+                <li class="disabled"><span>❌</span> Entrenamiento IA personalizado</li>
+                <li class="disabled"><span>❌</span> Ventas mayoristas</li>
+                <li><span>✅</span> Info detallada de ventas</li>
+                <li><span>✅</span> Lista de Art. modificable</li>
+                <li><span>✅</span> Soporte vía Tickets</li>
+                <li class="disabled"><span>❌</span> Soporte personalizado</li>
+                <li class="disabled"><span>❌</span> Derivación a operador (Handoff)</li>
+                <li class="disabled"><span>❌</span> Onboarding asistido</li>
+                <li><span>✅</span> Cobro integrado (MercadoPago + Decidir)</li>
+            </ul>
+            <a href="signup.html" class="btn-primary full-width">Elegir Inicial</a>
         </div>
 
         <div class="pricing-card featured">
             <div class="popular-badge">MÁS ELEGIDO</div>
-            <div class="plan-name">Plan Inicial</div>
-            <div class="plan-price">$15.000<span>/mes</span></div>
-            <p class="plan-desc">Ideal para automatizar tu PyME.</p>
-            <ul class="plan-features">
-                <li><span>✓</span> <strong>Hasta 2.000 artículos</strong></li>
-                <li><span>✓</span> IA Avanzada</li>
-                <li><span>✓</span> Ventas minoristas</li>
-                <li><span>✓</span> Información detallada de tus ventas</li>
-                <li><span>✓</span> Modificación de artículos</li>
-                <li><span>✓</span> Soporte tecnico por Email</li>
+            <div class="plan-name">Desarrollo</div>
+            <div class="plan-price" data-ars="30.000" data-usd="20">
+                <span class="currency-symbol">$</span><span class="amount">30.000</span>
+                <span class="period">/ mes</span>
+            </div>
+            <p class="plan-desc">Vigencia: Ilimitada.</p>
+            <div class="item-limit">Hasta 7.000 artículos</div>
+
+            <ul class="plan-features compact-list">
+                <li><span>✅</span> IA Avanzada</li>
+                <li><span>✅</span> Ventas minoristas</li>
+                <li class="disabled"><span>❌</span> Entrenamiento IA personalizado</li>
+                <li><span>✅</span> <strong>Ventas mayoristas</strong></li>
+                <li><span>✅</span> Info detallada de ventas</li>
+                <li><span>✅</span> Lista de Art. modificable</li>
+                <li><span>✅</span> Soporte vía Tickets</li>
+                <li class="disabled"><span>❌</span> Soporte personalizado</li>
+                <li><span>✅</span> Derivación a operador (Handoff)</li>
+                <li><span>✅</span> Onboarding asistido</li>
+                <li><span>✅</span> Cobro integrado con confirmación</li>
             </ul>
-            <a href="/signup.html" class="btn-primary full-width">Suscribirme</a>
+            <a href="signup.html" class="btn-primary full-width">Elegir Desarrollo</a>
         </div>
 
         <div class="pricing-card">
-            <div class="plan-name">Plan Desarrollo</div>
-            <div class="plan-price">$30.000<span>/mes</span></div>
-            <p class="plan-desc">Ideal para automatizar tu comercio .</p>
-            <ul class="plan-features">
-                <li><span>✓</span> Hasta 7.000 artículos</li>
-                <li><span>✓</span> Entrenamiento IA Personalizado</li>
-                <li><span>✓</span> Ventas mayoristas y minoristas</li>
-                <li><span>✓</span> Información detallada de tus ventas</li>
-                <li><span>✓</span> Modificación de artículos</li>
-                <li><span>✓</span> Soporte tecnico personalizado</li>
+            <div class="plan-name">A Medida</div>
+            <div class="plan-price">
+                Cotizar
+            </div>
+            <p class="plan-desc">Vigencia: Ilimitada.</p>
+            <div class="item-limit">Más de 7.000 artículos</div>
+
+            <ul class="plan-features compact-list">
+                <li><span>✅</span> IA Avanzada</li>
+                <li><span>✅</span> Ventas minoristas</li>
+                <li><span>✅</span> <strong>Entrenamiento IA personalizado</strong></li>
+                <li><span>✅</span> Ventas mayoristas</li>
+                <li><span>✅</span> Info detallada de ventas</li>
+                <li><span>✅</span> Lista de Art. modificable</li>
+                <li><span>✅</span> Soporte vía Tickets</li>
+                <li><span>✅</span> <strong>Soporte personalizado</strong></li>
+                <li><span>✅</span> Derivación a operador (Handoff)</li>
+                <li><span>✅</span> Onboarding asistido</li>
+                <li><span>✅</span> Cobro integrado</li>
             </ul>
-            <a href="/signup.html" class="btn-secondary full-width">Suscribirme</a>
+            <a href="#contacto" class="btn-secondary full-width">Contactar Ventas</a>
+        </div>
+    </div>
+
+    <div class="catalog-details">
+        <div class="catalog-header">
+            <h4>📸 Armado de catálogo con fotos (opcional con costo adicional)</h4>
+            <p class="catalog-intro">
+                ¿No tenes catálogo? ¿No tenes fotos de tus productos? No te preocupes. 
+                Podemos generar tu catálogo con <strong>imágenes referenciales utilizando Inteligencia Artificial</strong>. 
+                Este es un servicio <strong>adicional opcional</strong> que podrás seleccionar al suscribirte.
+            </p>
+            
+            <div class="requirements-box">
+                <span class="req-icon">📋</span>
+                <span class="req-text"><strong>Requisito único:</strong> Solo necesitas enviarnos tu lista de productos o catalogo (Excel/PDF) con Nombre, Precio y Descripción.</span>
+            </div>
         </div>
 
-        <div class="pricing-card">
-            <div class="plan-name">Plan a Medida</div>
-            <div class="plan-price">Custom</div>
-            <p class="plan-desc">Soluciones a medida.</p>
-            <ul class="plan-features">
-               <li><span>✓</span> Desde 7.000 artículos</li>
-                <li><span>✓</span> Entrenamiento IA Personalizado</li>
-                <li><span>✓</span> Ventas mayoristas y minoristas</li>
-                <li><span>✓</span> Información detallada de tus ventas</li>
-                <li><span>✓</span> Modificación de artículos</li>
-                <li><span>✓</span> Soporte tecnico personalizado</li>
-            </ul>
-            <a href="#" class="btn-secondary full-width">Contactar Ventas</a>
-        </div>
+        <div class="packs-grid">
+            <div class="pack-item">
+                <div class="pack-badge">Pack Inicial</div>
+                <div class="pack-title">50 Productos</div>
+                <div class="pack-price plan-price" data-ars="45.000" data-usd="30">
+                    <span class="currency-symbol">$</span><span class="amount">45.000</span>
+                </div>
+                <ul class="pack-features">
+                    <li>⏱️ Entrega: <strong>72 hs hábiles</strong></li>
+                    <li>🖼️ Imágenes IA referenciales</li>
+                </ul>
+            </div>
+            
+            <div class="pack-item featured-pack">
+                <div class="pack-badge">Más Popular</div>
+                <div class="pack-title">200 Productos</div>
+                <div class="pack-price plan-price" data-ars="120.000" data-usd="80">
+                    <span class="currency-symbol">$</span><span class="amount">120.000</span>
+                </div>
+                <ul class="pack-features">
+                    <li>⏱️ Entrega: <strong>72 hs hábiles</strong></li>
+                    <li>🖼️ Imágenes IA referenciales</li>
+                </ul>
+            </div>
 
+            <div class="pack-item">
+                <div class="pack-badge">Volumen Alto</div>
+                <div class="pack-title">1000 Productos</div>
+                <div class="pack-price plan-price" data-ars="450.000" data-usd="300">
+                    <span class="currency-symbol">$</span><span class="amount">450.000</span>
+                </div>
+                <ul class="pack-features">
+                    <li>⏱️ Entrega: <strong>7 días hábiles</strong></li>
+                    <li>🖼️ Imágenes IA referenciales</li>
+                </ul>
+            </div>
+        </div>
+        
+        <p class="small-note">
+            Las imágenes generadas son representaciones visuales creadas por IA basadas en la descripción de tu producto, no son fotografías reales exactas del artículo físico.
+        </p>
     </div>
 </section>
 

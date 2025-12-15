@@ -421,3 +421,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// --- LÓGICA DE MONEDA (ARS / USD) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleSwitch = document.getElementById('currency-switch');
+    const labelArs = document.getElementById('label-ars');
+    const labelUsd = document.getElementById('label-usd');
+    
+    // Seleccionamos TODOS los precios que tengan atributo data-ars
+    const allPrices = document.querySelectorAll('.plan-price[data-ars]');
+
+    if(toggleSwitch) {
+        toggleSwitch.addEventListener('change', function() {
+            if(this.checked) {
+                // --- MODO USD ---
+                labelArs.classList.remove('active');
+                labelUsd.classList.add('active');
+                
+                allPrices.forEach(price => {
+                    // Leemos el valor en USD del HTML
+                    const usdVal = price.getAttribute('data-usd');
+                    // Actualizamos símbolo y número
+                    const symbolSpan = price.querySelector('.currency-symbol');
+                    const amountSpan = price.querySelector('.amount');
+                    
+                    if(symbolSpan) symbolSpan.innerText = 'US$';
+                    if(amountSpan) amountSpan.innerText = usdVal;
+                });
+
+            } else {
+                // --- MODO ARS ---
+                labelUsd.classList.remove('active');
+                labelArs.classList.add('active');
+
+                allPrices.forEach(price => {
+                    const arsVal = price.getAttribute('data-ars');
+                    const symbolSpan = price.querySelector('.currency-symbol');
+                    const amountSpan = price.querySelector('.amount');
+                    
+                    if(symbolSpan) symbolSpan.innerText = '$';
+                    if(amountSpan) amountSpan.innerText = arsVal;
+                });
+            }
+        });
+    }
+});

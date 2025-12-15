@@ -3,115 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Cuenta - DenIA</title>
+    <title>Suscripción DenIA</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .form-step { display: none; }
+        .form-step.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
 </head>
 <body class="signup-body">
 
     <canvas id="bg-canvas"></canvas>
 
-    <header style="position: relative; padding: 20px; width: 100%; z-index: 10;">
-        <div class="header-left">
-            <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
-                <img src="assets/img/logo-denia-transparent.png" alt="Logo" style="height:40px;">
-                <span style="color:white; font-family:'Space Grotesk';">Volver al Inicio</span>
-            </a>
-        </div>
-    </header>
-
-    <div class="form-wrapper">
+    <div class="form-wrapper" style="margin-top: 50px;">
         
         <div class="progress-container">
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progress-fill"></div>
-            </div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
             <div class="step-indicator active" data-step="1">1</div>
             <div class="step-indicator" data-step="2">2</div>
+            <div class="step-indicator" data-step="3">3</div>
         </div>
 
         <form id="multi-step-form" onsubmit="return false;">
             
             <div class="form-step active" id="step-1">
-                <h2>Crear Cuenta</h2>
-                <p>Datos personales para tu acceso.</p>
-                
+                <h2>1. Tus Datos</h2>
                 <div class="row">
                     <div class="input-group">
                         <label>Nombre</label>
-                        <input type="text" id="nombre" placeholder="Juan" required>
+                        <input type="text" id="nombre" required>
                     </div>
                     <div class="input-group">
                         <label>Apellido</label>
-                        <input type="text" id="apellido" placeholder="Pérez" required>
+                        <input type="text" id="apellido" required>
+                    </div>
+                </div>
+                <div class="input-group"><label>Empresa</label><input type="text" id="empresa" required></div>
+                <div class="input-group"><label>Email</label><input type="email" id="email" required></div>
+                <div class="input-group"><label>Contraseña</label><input type="password" id="password" required></div>
+            </div> 
+            <div class="form-step" id="step-2">
+                <h2>2. Tu Plan</h2>
+                
+                <div class="summary-box">
+                    <div class="summary-header">PLAN BASE</div>
+                    <div class="plan-display">
+                        <span id="selected-plan-name" class="highlight-text">Cargando...</span>
+                        <span id="selected-plan-price" class="price-text">$0</span>
                     </div>
                 </div>
 
-                <div class="input-group">
-                    <label>Correo Electrónico</label>
-                    <input type="email" id="email" placeholder="juan@empresa.com" required>
+                <div class="addons-section">
+                    <h4 class="addon-title">📸 Packs de Fotos (Opcional)</h4>
+                    <div class="radio-cards-container">
+                        
+                        <label class="radio-card-option">
+                            <input type="radio" name="addon-pack" value="0" checked onchange="calculateTotal()">
+                            <div class="card-content">
+                                <div class="card-top"><span class="pack-name">Sin fotos extra</span><span class="radio-custom"></span></div>
+                                <div class="card-price">$0</div>
+                            </div>
+                        </label>
+
+                        <label class="radio-card-option">
+                            <input type="radio" name="addon-pack" value="45000" onchange="calculateTotal()">
+                            <div class="card-content">
+                                <div class="card-top"><span class="pack-name">Pack 50</span><span class="radio-custom"></span></div>
+                                <ul class="pack-details-list"><li>⏱️ 72hs</li><li>🖼️ Imágenes IA</li></ul>
+                                <div class="card-price">+$45.000</div>
+                            </div>
+                        </label>
+
+                        <label class="radio-card-option featured-option">
+                            <input type="radio" name="addon-pack" value="120000" onchange="calculateTotal()">
+                            <div class="card-content">
+                                <div class="card-top"><span class="pack-name">Pack 200</span><span class="radio-custom"></span></div>
+                                <ul class="pack-details-list"><li>⏱️ 72hs</li><li>🖼️ Imágenes IA</li></ul>
+                                <div class="card-price">+$120.000</div>
+                            </div>
+                        </label>
+
+                        <label class="radio-card-option">
+                            <input type="radio" name="addon-pack" value="450000" onchange="calculateTotal()">
+                            <div class="card-content">
+                                <div class="card-top"><span class="pack-name">Pack 1000</span><span class="radio-custom"></span></div>
+                                <ul class="pack-details-list"><li>⏱️ 7 días</li><li>🖼️ Imágenes IA</li></ul>
+                                <div class="card-price">+$450.000</div>
+                            </div>
+                        </label>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label>Usuario (Alias)</label>
-                    <input type="text" id="username" placeholder="juan.denia" required>
-                </div>
-
-                <div class="input-group">
-                    <label>Contraseña</label>
-                    <input type="password" id="password" placeholder="••••••••" required>
+                <div class="total-bar">
+                    <span>Total a pagar:</span>
+                    <span id="final-total" class="total-amount">$0</span>
                 </div>
             </div>
-
-            <div class="form-step" id="step-2">
-                <h2>Método de Pago</h2>
-                <p>Configura tu suscripción para activar el servicio.</p>
-
+            <div class="form-step" id="step-3">
+                <h2>3. Pago</h2>
                 <div class="credit-card-box">
-                    
                     <div class="input-group">
-                        <label>Tipo de Tarjeta</label>
-                        <select id="card-type" required>
-                            <option value="" disabled selected>Seleccionar...</option>
-                            <option value="visa">Visa Crédito/Débito</option>
+                        <label>Tipo</label>
+                        <select id="card-type">
+                            <option value="visa">Visa</option>
                             <option value="master">Mastercard</option>
-                            <option value="amex">American Express</option>
                         </select>
                     </div>
-
-                    <div class="input-group">
-                        <label>Número de Tarjeta</label>
-                        <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label>DNI / Documento del Titular</label>
-                        <input type="number" id="card-dni" placeholder="Sin puntos" required>
-                    </div>
-
+                    <div class="input-group"><label>Número</label><input type="text" id="card-number" placeholder="0000 0000 0000 0000"></div>
                     <div class="row">
-                        <div class="input-group">
-                            <label>Vencimiento (MM/AA)</label>
-                            <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" required>
-                        </div>
-                        <div class="input-group">
-                            <label>CVV</label>
-                            <input type="password" id="card-cvv" placeholder="123" maxlength="4" required>
-                        </div>
+                        <div class="input-group"><label>Titular</label><input type="text" id="card-holder"></div>
+                        <div class="input-group"><label>DNI</label><input type="number" id="card-dni"></div>
                     </div>
-                    
-                    <div class="secure-badge">🔒 Transacción Encriptada SSL</div>
+                    <div class="row">
+                        <div class="input-group"><label>Vencimiento</label><input type="text" id="card-expiry"></div>
+                        <div class="input-group"><label>CVV</label><input type="password" id="card-cvv"></div>
+                    </div>
                 </div>
             </div>
-
             <div class="form-actions">
                 <button type="button" id="prevBtn" class="btn-secondary" style="display:none;">Atrás</button>
                 <button type="button" id="nextBtn" class="btn-primary">Siguiente</button>
             </div>
-
         </form>
     </div>
 
     <script src="/js/script.js"></script>
-    <script src="/js/signup.js"></script> </body>
+    <script src="/js/signup.js"></script>
+</body>
 </html>

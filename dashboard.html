@@ -8,21 +8,50 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dashboard-body">
-
+    
     <canvas id="bg-canvas"></canvas>
 
     <div class="dashboard-container">
+
+        <button class="mobile-menu-toggle" id="menu-toggle">
+    ☰ Menú
+</button>
         
         <aside class="sidebar">
             <div class="sidebar-logo">
                 <img src="assets/img/logo-denia-transparent.png" alt="DenIA">
             </div>
+            
+            <div class="plan-status-card">
+                <div class="status-label">TU PLAN</div>
+                <div id="user-plan-badge" class="plan-badge">Cargando...</div>
+                <div class="usage-bar-container">
+                    <div class="usage-text">Artículos: <span id="usage-count">0</span> / <span id="usage-limit">...</span></div>
+                    <div class="progress-bg"><div class="progress-val" id="usage-progress"></div></div>
+                </div>
+            </div>
+
             <nav class="sidebar-menu">
-                <a href="#" class="menu-item active">🤖 Configuración Bot</a>
-                <a href="#" class="menu-item">📊 Métricas</a>
+                <div class="menu-label">Principal</div>
+                
+                <a href="#" class="menu-item active">🤖 Configurar Bot</a>
+                <a href="#" class="menu-item">📂 Cargar Catálogo</a>
+
+                <a href="#" id="menu-metrics" class="menu-item hidden-feature">📊 Métricas de Ventas</a>
+                <a href="#" id="menu-prices" class="menu-item hidden-feature">📝 Lista Modificable</a>
+                <a href="#" id="menu-tickets" class="menu-item hidden-feature">🎫 Soporte Tickets</a>
+                
+                <a href="#" id="menu-wholesale" class="menu-item hidden-feature">📦 Ventas Mayoristas</a>
+                <a href="#" id="menu-handoff" class="menu-item hidden-feature">👨‍💻 Derivación Operador</a>
+                <a href="#" id="menu-onboarding" class="menu-item hidden-feature">🚀 Onboarding Status</a>
+
+                <a href="#" id="menu-custom-ai" class="menu-item hidden-feature">🧠 Entrenamiento Custom</a>
+                <a href="#" id="menu-vip" class="menu-item hidden-feature">💎 Soporte VIP</a>
+
+                <div class="menu-label" style="margin-top:20px;">Cuenta</div>
                 <a href="#" class="menu-item">💳 Suscripción</a>
-                <a href="#" class="menu-item">⚙️ Ajustes</a>
             </nav>
+            
             <div class="sidebar-footer">
                 <a href="index.html" class="logout-btn">Cerrar Sesión</a>
             </div>
@@ -30,43 +59,117 @@
 
         <main class="main-content">
             <header class="dash-header">
-                <h1>Hola, <span id="user-display-name">Usuario</span> 👋</h1>
-                <p>Configura la inteligencia de tu asistente.</p>
+                <h1>Hola, <span id="user-display-name" class="highlight-text">Usuario</span> 👋</h1>
+                <p>Gestiona tu Asistente Comercial Inteligente.</p>
             </header>
 
             <div class="dash-grid">
                 
-                <div class="dash-card">
+                <div class="dash-card" id="catalog-card">
                     <div class="card-header">
-                        <h3>🧠 Personalidad del Bot</h3>
+                        <h3 id="catalog-title">📂 Base de Conocimiento</h3>
+                        <span class="status-pill" id="catalog-status">Inactivo</span>
                     </div>
+                    
+                    <div class="upload-area" id="drop-zone">
+                        <div class="upload-icon">☁️</div>
+                        <h3 id="upload-title">Sube tu archivo</h3>
+                        <p id="upload-desc">Formatos: PDF, Excel, CSV</p>
+                        <input type="file" id="file-input" hidden accept=".pdf, .csv, .xlsx, .xls">
+                        <button type="button" class="btn-secondary" onclick="document.getElementById('file-input').click()">Seleccionar Archivo</button>
+                    </div>
+
+                    <div id="photos-pack-info" style="display:none; margin-top:15px; background:rgba(138,43,226,0.1); padding:15px; border-radius:8px; border:1px dashed #8a2be2;">
+                        <p style="font-size:0.9rem; color:#fff;">✨ <strong>Pack de Fotos Activo:</strong> Sube tu lista de precios (Excel) y generamos imágenes en <span id="delivery-time">...</span>.</p>
+                    </div>
+
+                    <div class="file-list" id="file-list"></div>
+                </div>
+
+                <div class="dash-card bot-config-card">
+                    <div class="card-header">
+                        <h3>🧠 Configuración del Agente IA</h3>
+                        <button type="button" class="btn-sm" id="generate-prompt-btn">✨ Generar Prompt</button>
+                    </div>
+                    
                     <form id="bot-config-form">
-                        <div class="input-group">
-                            <label>Nombre del Asistente</label>
-                            <input type="text" placeholder="Ej: DeniBot" value="Asistente Virtual">
+                        
+                        <h4 class="form-section-title">1. Identidad del Negocio</h4>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>Nombre del Negocio</label>
+                                <input type="text" id="biz-name" placeholder="Ej: TechStore Arg" required>
+                            </div>
+                            <div class="input-group">
+                                <label>Rubro / Industria</label>
+                                <input type="text" id="biz-industry" placeholder="Ej: Tecnología">
+                            </div>
+                            <div class="input-group full-width">
+                                <label>Descripción Corta (Propuesta de Valor)</label>
+                                <input type="text" id="biz-desc" placeholder="Ej: Especialistas en productos importados con garantía.">
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label>Instrucciones de Comportamiento (Prompt)</label>
-                            <textarea rows="5" placeholder="Ej: Eres un vendedor amable y experto en zapatillas. Tu objetivo es cerrar la venta ofreciendo 3 cuotas sin interés..."></textarea>
-                            <p class="hint">Describe cómo quieres que hable y venda tu bot.</p>
+
+                        <h4 class="form-section-title">2. Datos Operativos</h4>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>Horarios de Atención</label>
+                                <input type="text" id="biz-hours" placeholder="Ej: Lun a Vie 9 a 18hs">
+                            </div>
+                            <div class="input-group">
+                                <label>Ubicación / Zona</label>
+                                <input type="text" id="biz-location" placeholder="Ej: Belgrano, CABA">
+                            </div>
+                            <div class="input-group">
+                                <label>Medios de Pago</label>
+                                <input type="text" id="biz-payment" placeholder="Ej: Transferencia, MP">
+                            </div>
+                            <div class="input-group">
+                                <label>Envíos</label>
+                                <input type="text" id="biz-shipping" placeholder="Ej: Correo, Moto">
+                            </div>
                         </div>
-                        <button type="button" class="btn-primary full-width">Guardar Configuración</button>
+
+                        <h4 class="form-section-title">3. Personalidad y Reglas</h4>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label>Tono de Voz</label>
+                                <select id="biz-tone">
+                                    <option value="Profesional y Formal">Profesional y Formal</option>
+                                    <option value="Amable y Empático" selected>Amable y Empático (Recomendado)</option>
+                                    <option value="Divertido y Canchero">Divertido / Informal</option>
+                                    <option value="Técnico y Directo">Técnico y Directo</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Uso de Emojis</label>
+                                <select id="biz-emoji">
+                                    <option value="Moderado">Moderado (👌)</option>
+                                    <option value="Abundante">Abundante (🔥🚀👋)</option>
+                                    <option value="Nulo">Sin Emojis</option>
+                                </select>
+                            </div>
+                            <div class="input-group full-width">
+                                <label>Políticas (Cambios/Devoluciones)</label>
+                                <input type="text" id="biz-policy" placeholder="Ej: 30 días de cambio directo.">
+                            </div>
+                        </div>
+
+                        <div class="prompt-preview-area">
+                            <label>📝 Prompt Generado (Instrucción Maestra)</label>
+                            <p class="hint">Esto es lo que leerá la IA para saber cómo comportarse.</p>
+                            <textarea id="final-prompt" rows="8" readonly></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary full-width" style="margin-top:20px;">Guardar Configuración</button>
                     </form>
                 </div>
 
                 <div class="dash-card">
                     <div class="card-header">
-                        <h3>📂 Base de Conocimiento</h3>
+                        <h3>⚡ Servicios Activos</h3>
                     </div>
-                    <div class="upload-area" id="drop-zone">
-                        <div class="upload-icon">☁️</div>
-                        <h3>Arrastra tu catálogo aquí</h3>
-                        <p>Soporta PDF, Excel (.xlsx) o CSV</p>
-                        <input type="file" id="file-input" hidden accept=".pdf, .csv, .xlsx, .xls">
-                        <button type="button" class="btn-secondary" onclick="document.getElementById('file-input').click()">Buscar Archivo</button>
-                    </div>
-                    
-                    <div class="file-list" id="file-list">
+                    <div class="modules-grid" id="active-modules-container">
                         </div>
                 </div>
 
@@ -74,6 +177,6 @@
         </main>
     </div>
 
-    <script src="/js/script.js"></script>
+    <script src="/js/script.js"></script> 
     <script src="/js/dashboard.js"></script> </body>
 </html>
