@@ -48,12 +48,166 @@ body:not(.dashboard-body) > header {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
-.logo-img {
-    height: 40px; width: auto; object-fit: contain;
-    border-radius: 12px; border: 1px solid rgba(0, 240, 255, 0.3);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); display: block;
+/* --- LOGO DENIA: NÚCLEO ELÉCTRICO "TESLA COIL" --- */
+
+/* 1. El Contenedor Principal */
+.logo-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px; /* Tamaño compacto */
+    height: 100px;
+    perspective: 1000px;
 }
 
+/* 2. La Imagen del Logo (Gira en 3D) */
+.logo-img-main {
+    height: 60px; /* Tamaño grande */
+    width: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 3; /* Por encima de todo */
+    border-radius: 12px;
+    
+    /* Animación de giro 3D suave */
+    animation: logo-spin-3d 6s linear infinite;
+    transform-style: preserve-3d;
+    /* Brillo interno */
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.5);
+}
+
+@keyframes logo-spin-3d {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+/* =========================================
+   EFECTOS DE ENERGÍA
+   ========================================= */
+
+/* Capas base para efectos (Anillos y Rayos) */
+.neural-effect, .lightning-bolts {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; height: 100%;
+    pointer-events: none;
+    mix-blend-mode: screen; /* Modo de fusión para que la luz se sume */
+}
+.neural-effect { z-index: 1; } /* Anillos atrás */
+.lightning-bolts { z-index: 2; } /* Rayos en el medio */
+
+
+/* --- LOGO DENIA: REACTOR DE ENERGÍA ESTABLE --- */
+
+/* 1. El Contenedor Principal (Define el área de efecto) */
+.logo-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110px;  /* Tamaño contenido para el header */
+    height: 110px;
+}
+
+/* 2. La Imagen del Logo (Estática y Protagonista) */
+.logo-img-main {
+    height: 65px; /* Tamaño grande pero equilibrado */
+    width: auto;
+    object-fit: contain;
+    position: relative;
+    z-index: 10; /* Siempre encima de todo */
+    
+    /* Sombra sutil para despegarlo del fondo brillante */
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+    
+    /* Flotación muy suave apenas perceptible para darle vida */
+    animation: soft-float 4s ease-in-out infinite alternate;
+}
+
+/* Animación de flotación sutil */
+@keyframes soft-float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-5px); }
+}
+
+/* =========================================
+   EFECTOS DE ENERGÍA (Sutiles y de fondo)
+   ========================================= */
+
+.neural-effect, .lightning-bolts {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+/* --- A. EL NÚCLEO PULSANTE (Fondo Integrador) --- */
+/* Usamos .neural-effect para crear el brillo de fondo */
+.neural-effect {
+    width: 140%;
+    height: 140%;
+    z-index: 1; /* Detrás del logo */
+    
+    /* Un degradado radial suave que hace de "aura" */
+    background: radial-gradient(circle, var(--primary-cyan) 0%, rgba(138, 43, 226, 0.2) 40%, transparent 70%);
+    opacity: 0.4;
+    filter: blur(15px); /* Muy desenfocado para que sea suave */
+    
+    /* Pulso lento de intensidad */
+    animation: core-pulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes core-pulse {
+    0% { opacity: 0.3; scale: 0.9; }
+    100% { opacity: 0.6; scale: 1.1; background: radial-gradient(circle, var(--secondary-violet) 0%, rgba(0, 240, 255, 0.3) 50%, transparent 70%); }
+}
+
+
+/* --- B. ANILLOS DE ENERGÍA FINOS (Detalle Tecnológico) --- */
+/* Usamos .lightning-bolts para los aros finos que giran */
+.lightning-bolts {
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* Entre el fondo y el logo */
+}
+
+.lightning-bolts::before,
+.lightning-bolts::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid transparent; /* Borde muy fino */
+    animation: slow-orbit linear infinite;
+}
+
+/* Anillo Cyan (Gira lento) */
+.lightning-bolts::before {
+    border-top-color: rgba(0, 240, 255, 0.7); /* Semi transparente */
+    border-bottom-color: rgba(0, 240, 255, 0.3);
+    animation-duration: 8s;
+}
+
+/* Anillo Violeta (Gira más lento y al revés) */
+.lightning-bolts::after {
+    width: 90%; height: 90%; /* Un poco más chico */
+    border-left-color: rgba(138, 43, 226, 0.7);
+    border-right-color: rgba(138, 43, 226, 0.3);
+    animation-duration: 12s;
+    animation-direction: reverse;
+}
+
+@keyframes slow-orbit {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Limpieza de estilos anteriores si quedaron */
+.neural-effect::before, .neural-effect::after { display: none; }
 .header-left, .header-right { flex: 1; display: flex; align-items: center; }
 .header-right { justify-content: flex-end; }
 .header-center { flex: 2; display: flex; justify-content: center; text-align: center; }
@@ -132,7 +286,7 @@ h1.typewriter-container {
 }
 
 #typewriter-text {
-    background: linear-gradient(to right, #ffffff, #a5a5a5);
+    background: linear-gradient(to right, #00f0ff, #8a2be2);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
@@ -305,10 +459,10 @@ input:checked + .slider:before { transform: translateX(24px); }
 .faq-container { display: flex; flex-direction: column; gap: 15px; }
 .faq-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; transition: 0.3s; }
 .faq-item[open] { border-color: var(--secondary-violet); background: rgba(138, 43, 226, 0.05); }
-summary { padding: 20px; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+summary { padding: 20px; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--primary-cyan)}
 summary::after { content: '+'; font-size: 1.5rem; color: var(--primary-cyan); }
 .faq-item[open] summary::after { transform: rotate(45deg); color: var(--secondary-violet); }
-.faq-content { padding: 0 20px 20px 20px; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+.faq-content { padding: 0 20px 20px 20px; color: var(--text-main); font-size: 0.95rem; line-height: 1.6; }
 
 .testimonials-section { padding: 80px 5%; max-width: 1200px; margin: 0 auto; }
 .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
@@ -341,9 +495,9 @@ summary::after { content: '+'; font-size: 1.5rem; color: var(--primary-cyan); }
 .step-indicator.completed { background: var(--primary-cyan); color: #000; border-color: var(--primary-cyan); }
 
 .input-group { margin-bottom: 20px; text-align: left; }
-.input-group label { display: block; color: #fff; font-size: 0.85rem; margin-bottom: 8px; font-weight: 600; }
-.input-group input, .input-group select { width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; transition: 0.3s; }
-.input-group input:focus, .input-group select:focus { outline: none; border-color: var(--primary-cyan); background: rgba(0, 240, 255, 0.05); }
+.input-group label { display: block; color: #fff; font-size: 0.85rem; margin-bottom: 8px; font-weight: 600;}
+.input-group input, .input-group select { width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; transition: 0.3s;}
+.input-group input:focus, .input-group select:focus { outline: none; border-color: var(--primary-cyan); background: rgba(0, 240, 255, 0.05) }
 
 /* --- CATALOG DETAILS --- */
 .catalog-details {
@@ -394,7 +548,39 @@ summary::after { content: '+'; font-size: 1.5rem; color: var(--primary-cyan); }
 /* --- ESTILOS DEL DASHBOARD (CORE) --- */
 .dashboard-body { background-color: var(--bg-dark); color: #fff; min-height: 100vh; }
 .dashboard-container { display: flex; min-height: 100vh; width: 100%; overflow-x: hidden; position: relative; }
+/* --- AJUSTE DE LAYOUT FULL WIDTH (DASHBOARD) --- */
 
+/* 1. Tarjeta de Carga de Archivos: Ancho Completo */
+#catalog-card {
+    grid-column: 1 / -1; /* Ocupa desde la primera hasta la última columna */
+    order: 1; /* Asegura que aparezca primero */
+}
+
+/* 2. Tarjeta de Configuración del Bot: Ancho Completo y Abajo */
+.bot-config-card {
+    grid-column: 1 / -1; /* Ocupa todo el ancho */
+    order: 2; /* Asegura que aparezca segunda */
+    margin-top: 10px; /* Un poco de aire extra */
+}
+
+/* 3. Tarjeta de Servicios Activos (Opcional: Que se vaya al final o al lado si hay espacio) */
+.dash-card:not(#catalog-card):not(.bot-config-card) {
+    order: 3; /* Todo lo demás va al final */
+}
+
+/* --- OPTIMIZACIÓN DEL FORMULARIO EN PANTALLA GRANDE --- */
+/* Como ahora la tarjeta es muy ancha, aprovechamos para poner 3 columnas de inputs en PC */
+@media (min-width: 1200px) {
+    .form-grid {
+        grid-template-columns: repeat(3, 1fr) !important; /* 3 Columnas */
+        gap: 25px;
+    }
+    
+    /* Ajustamos los elementos que deben ocupar todo el ancho */
+    .input-group.full-width {
+        grid-column: span 3 !important;
+    }
+}
 /* --- HEADER FIX: RESETEO DEL DASHBOARD HEADER (PARA QUE NO SE SUPERPONGA) --- */
 .dash-header {
     position: relative !important; 
@@ -585,3 +771,126 @@ summary::after { content: '+'; font-size: 1.5rem; color: var(--primary-cyan); }
     padding-right: 5px; /* Un pequeño espacio para que la barra no tape el texto */
     margin-bottom: 15px; /* Separa un poco del footer */
 }
+
+/* --- CORRECCIÓN DE BOTONES EN DASHBOARD (Evitar que se estiren) --- */
+
+/* 1. Botón "Guardar Configuración" del Formulario */
+#bot-config-form .btn-primary {
+    width: 100%; /* En móviles ocupa todo */
+    max-width: 350px; /* En PC tiene un límite elegante */
+    display: block;
+    margin: 30px auto 0; /* Centrado horizontalmente y separado de arriba */
+}
+
+/* 2. Botón "Seleccionar Archivo" (Carga) */
+.upload-area .btn-secondary {
+    display: inline-flex; /* Para que respete el centrado del padre */
+    justify-content: center;
+    align-items: center;
+    min-width: 200px; /* Tamaño mínimo decente */
+    margin-top: 15px;
+}
+
+/* 3. Ajuste extra para el botón del Header de la tarjeta ("Generar Prompt") */
+.card-header .btn-sm {
+    white-space: nowrap; /* Que no se rompa el texto */
+    margin-left: 15px;
+}
+
+/* 4. Si eliminaste la tarjeta de servicios, asegúrate que las otras llenen el espacio correctamente */
+.dash-grid {
+    /* Esto asegura que las filas se adapten al contenido */
+    grid-template-rows: min-content min-content; 
+    gap: 30px; /* Un poco más de aire entre tarjetas */
+}
+
+/* --- FORZAR ANCHO COMPLETO PARA TARJETAS DEL DASHBOARD --- */
+
+/* 1. Expandir las tarjetas principales para que toquen ambos bordes */
+#catalog-card,
+.bot-config-card {
+    grid-column: 1 / -1 !important; /* Ordena ocupar todas las columnas disponibles */
+    width: 100%;
+    max-width: 100%;
+}
+
+/* 2. Optimizar el formulario interno para pantallas anchas (PC) */
+/* Al ser la tarjeta más ancha, pasamos de 2 columnas a 3 columnas de inputs */
+@media (min-width: 1100px) {
+    .bot-config-card .form-grid {
+        grid-template-columns: repeat(3, 1fr) !important; /* 3 columnas iguales */
+        gap: 30px; /* Más espacio entre inputs */
+    }
+
+    /* Hacemos que los campos largos (como Descripción) ocupen las 3 columnas */
+    .bot-config-card .input-group.full-width {
+        grid-column: span 3 !important;
+    }
+}
+
+/* 3. Ajuste para pantallas gigantes (Monitores grandes) */
+/* Si la pantalla es muy grande, evitamos que los inputs sean eternos */
+@media (min-width: 1600px) {
+    .bot-config-card .form-grid {
+        grid-template-columns: repeat(4, 1fr) !important; /* 4 columnas */
+    }
+    .bot-config-card .input-group.full-width {
+        grid-column: span 4 !important;
+    }
+}
+
+/* --- LÓGICA DE PANELES (SPA) --- */
+
+/* Clase para ocultar paneles */
+.hidden-panel {
+    display: none !important;
+}
+
+/* Animación de entrada suave para los paneles */
+.panel-section {
+    animation: fade-in-panel 0.4s ease-out;
+    width: 100%; /* Asegura que ocupe todo */
+}
+
+@keyframes fade-in-panel {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilo para Tablas (Lista Modificable) */
+.denia-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: #cbd5e1;
+}
+.denia-table th {
+    text-align: left;
+    padding: 15px;
+    border-bottom: 2px solid var(--primary-cyan);
+    color: var(--primary-cyan);
+    font-family: 'Space Grotesk';
+}
+.denia-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.denia-table tr:hover {
+    background: rgba(255,255,255,0.02);
+}
+
+/* Estilo para Métricas (Cards pequeñas) */
+.metric-box {
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+}
+.metric-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    margin: 10px 0;
+}
+.metric-trend { font-size: 0.8rem; color: #00ff88; }

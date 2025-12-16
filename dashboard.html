@@ -3,102 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - DenIA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <title>Dashboard | DenIA</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dashboard-body">
-    
-    <canvas id="bg-canvas"></canvas>
 
     <div class="dashboard-container">
-
-        <button class="mobile-menu-toggle" id="menu-toggle">
-    ☰ Menú
-</button>
         
+        <button class="mobile-menu-toggle" id="menu-toggle">☰</button>
+
         <aside class="sidebar">
             <div class="sidebar-logo">
-                <img src="assets/img/logo-denia-transparent.png" alt="DenIA">
+                <div class="logo-wrapper">
+                    <img src="assets/img/WhatsApp Image 2025-12-09 at 10.33.34.jpeg" alt="DenIA" class="logo-img-main">
+                </div>
             </div>
-            
+
             <div class="plan-status-card">
-                <div class="status-label">TU PLAN</div>
+                <div class="status-label">Tu Plan Actual</div>
                 <div id="user-plan-badge" class="plan-badge">Cargando...</div>
-                <div class="usage-bar-container">
-                    <div class="usage-text">Artículos: <span id="usage-count">0</span> / <span id="usage-limit">...</span></div>
-                    <div class="progress-bg"><div class="progress-val" id="usage-progress"></div></div>
+                <div class="usage-text">
+                    <span>Artículos</span>
+                    <span id="usage-limit">0 / 0</span>
+                </div>
+                <div class="progress-bg">
+                    <div class="progress-val" id="usage-progress" style="width: 2%;"></div>
                 </div>
             </div>
 
             <nav class="sidebar-menu">
                 <div class="menu-label">Principal</div>
                 
-                <a href="#" class="menu-item active">🤖 Configurar Bot</a>
-                <a href="#" class="menu-item">📂 Cargar Catálogo</a>
+                <a href="#" class="menu-item active" id="menu-general">
+                    <span>🤖</span> Configurar Bot
+                </a>
+                <a href="#" class="menu-item" id="menu-catalog-link" onclick="document.getElementById('menu-general').click()">
+                    <span>📂</span> Cargar Catálogo
+                </a>
 
-                <a href="#" id="menu-metrics" class="menu-item hidden-feature">📊 Métricas de Ventas</a>
-                <a href="#" id="menu-prices" class="menu-item hidden-feature">📝 Lista Modificable</a>
-                <a href="#" id="menu-tickets" class="menu-item hidden-feature">🎫 Soporte Tickets</a>
-                
-                <a href="#" id="menu-wholesale" class="menu-item hidden-feature">📦 Ventas Mayoristas</a>
-                <a href="#" id="menu-handoff" class="menu-item hidden-feature">👨‍💻 Derivación Operador</a>
-                <a href="#" id="menu-onboarding" class="menu-item hidden-feature">🚀 Onboarding Status</a>
+                <div class="menu-label hidden-feature" id="label-gestion">Gestión</div>
 
-                <a href="#" id="menu-custom-ai" class="menu-item hidden-feature">🧠 Entrenamiento Custom</a>
-                <a href="#" id="menu-vip" class="menu-item hidden-feature">💎 Soporte VIP</a>
+                <a href="#" class="menu-item hidden-feature" id="menu-metrics">
+                    <span>📊</span> Métricas de Ventas
+                </a>
+                <a href="#" class="menu-item hidden-feature" id="menu-prices">
+                    <span>📝</span> Lista Modificable
+                </a>
 
-                <div class="menu-label" style="margin-top:20px;">Cuenta</div>
-                <a href="#" class="menu-item">💳 Suscripción</a>
+                <div class="menu-label hidden-feature" id="label-avanzado">Avanzado</div>
+
+                <a href="#" class="menu-item hidden-feature" id="menu-wholesale">
+                    <span>📦</span> Ventas Mayoristas
+                </a>
+                <a href="#" class="menu-item hidden-feature" id="menu-handoff">
+                    <span>👨‍💻</span> Derivación Humana
+                </a>
+                <a href="#" class="menu-item hidden-feature" id="menu-onboarding">
+                    <span>🚀</span> Onboarding
+                </a>
+
+                <div class="menu-label hidden-feature" id="label-corp">Corporativo</div>
+
+                <a href="#" class="menu-item hidden-feature" id="menu-custom-ai">
+                    <span>🧠</span> Entrenar IA
+                </a>
+                <a href="#" class="menu-item hidden-feature" id="menu-vip">
+                    <span>💎</span> Soporte VIP
+                </a>
+
+                <div class="menu-label">Ayuda</div>
+                <a href="#" class="menu-item hidden-feature" id="menu-tickets">
+                    <span>🎫</span> Soporte Tickets
+                </a>
             </nav>
-            
+
             <div class="sidebar-footer">
-                <a href="index.html" class="logout-btn">Cerrar Sesión</a>
+                <a href="index.html" class="logout-btn">← Cerrar Sesión</a>
             </div>
         </aside>
 
         <main class="main-content">
+            
             <header class="dash-header">
-                <h1>Hola, <span id="user-display-name" class="highlight-text">Usuario</span> 👋</h1>
-                <p>Gestiona tu Asistente Comercial Inteligente.</p>
+                <h1 id="section-title">Configurar Bot</h1>
+                <p>Bienvenido, <span id="user-display-name" style="color:var(--primary-cyan);">Usuario</span>.</p>
             </header>
 
-            <div class="dash-grid">
+            <div id="panel-general" class="panel-section dash-grid">
                 
                 <div class="dash-card" id="catalog-card">
                     <div class="card-header">
-                        <h3 id="catalog-title">📂 Base de Conocimiento</h3>
-                        <span class="status-pill" id="catalog-status">Inactivo</span>
+                        <h3 id="upload-title">Sube tu Catálogo</h3>
+                        <span class="status-pill" id="catalog-status">Pendiente</span>
                     </div>
                     
+                    <div id="photos-pack-info" style="display:none; background:rgba(138,43,226,0.1); padding:10px; border-radius:8px; margin-bottom:15px; border:1px solid #8a2be2;">
+                        <h4 id="catalog-title" style="margin:0; font-size:0.9rem;">📸 Pack Fotos Activo</h4>
+                        <p style="margin:5px 0 0; font-size:0.8rem; color:#d1d5db;">Tiempo estimado de generación: <span id="delivery-time" style="color:#fff; font-weight:bold;">72hs</span></p>
+                    </div>
+
                     <div class="upload-area" id="drop-zone">
-                        <div class="upload-icon">☁️</div>
-                        <h3 id="upload-title">Sube tu archivo</h3>
-                        <p id="upload-desc">Formatos: PDF, Excel, CSV</p>
-                        <input type="file" id="file-input" hidden accept=".pdf, .csv, .xlsx, .xls">
-                        <button type="button" class="btn-secondary" onclick="document.getElementById('file-input').click()">Seleccionar Archivo</button>
+                        <span class="upload-icon">📂</span>
+                        <p>Arrastra tu archivo aquí o haz clic para buscar</p>
+                        <p class="hint">Soporta PDF, Excel (.xlsx), CSV</p>
+                        <input type="file" id="file-input" hidden accept=".pdf,.csv,.xlsx">
+                        <button class="btn-secondary btn-sm" onclick="document.getElementById('file-input').click()">Seleccionar Archivo</button>
                     </div>
-
-                    <div id="photos-pack-info" style="display:none; margin-top:15px; background:rgba(138,43,226,0.1); padding:15px; border-radius:8px; border:1px dashed #8a2be2;">
-                        <p style="font-size:0.9rem; color:#fff;">✨ <strong>Pack de Fotos Activo:</strong> Sube tu lista de precios (Excel) y generamos imágenes en <span id="delivery-time">...</span>.</p>
-                    </div>
-
-                    <div class="file-list" id="file-list"></div>
+                    <div id="file-list"></div>
                 </div>
 
                 <div class="dash-card bot-config-card">
                     <div class="card-header">
-                        <h3>🧠 Configuración del Agente IA</h3>
-                        <button type="button" class="btn-sm" id="generate-prompt-btn">✨ Generar Prompt</button>
+                        <h3>🧠 Identidad del Agente IA</h3>
+                        <button class="btn-primary btn-sm" id="generate-prompt-btn">✨ Generar Prompt</button>
                     </div>
                     
                     <form id="bot-config-form">
-                        
-                        <h4 class="form-section-title">1. Identidad del Negocio</h4>
+                        <div class="form-section-title">1. Datos del Negocio</div>
                         <div class="form-grid">
                             <div class="input-group">
                                 <label>Nombre del Negocio</label>
-                                <input type="text" id="biz-name" placeholder="Ej: TechStore Arg" required>
+                                <input type="text" id="biz-name" placeholder="Ej: TechStore Arg">
                             </div>
                             <div class="input-group">
                                 <label>Rubro / Industria</label>
@@ -110,7 +140,7 @@
                             </div>
                         </div>
 
-                        <h4 class="form-section-title">2. Datos Operativos</h4>
+                        <div class="form-section-title">2. Datos Operativos</div>
                         <div class="form-grid">
                             <div class="input-group">
                                 <label>Horarios de Atención</label>
@@ -122,61 +152,201 @@
                             </div>
                             <div class="input-group">
                                 <label>Medios de Pago</label>
-                                <input type="text" id="biz-payment" placeholder="Ej: Transferencia, MP">
+                                <input type="text" id="biz-payment" placeholder="Ej: Transferencia, Efectivo, Crypto">
                             </div>
                             <div class="input-group">
                                 <label>Envíos</label>
-                                <input type="text" id="biz-shipping" placeholder="Ej: Correo, Moto">
+                                <input type="text" id="biz-shipping" placeholder="Ej: Correo Argentino / Moto">
                             </div>
                         </div>
 
-                        <h4 class="form-section-title">3. Personalidad y Reglas</h4>
+                        <div class="form-section-title">3. Personalidad</div>
                         <div class="form-grid">
                             <div class="input-group">
                                 <label>Tono de Voz</label>
                                 <select id="biz-tone">
-                                    <option value="Profesional y Formal">Profesional y Formal</option>
-                                    <option value="Amable y Empático" selected>Amable y Empático (Recomendado)</option>
-                                    <option value="Divertido y Canchero">Divertido / Informal</option>
-                                    <option value="Técnico y Directo">Técnico y Directo</option>
+                                    <option>Profesional y Serio</option>
+                                    <option>Amigable y Cercano</option>
+                                    <option>Enérgico y Vendedor</option>
                                 </select>
                             </div>
                             <div class="input-group">
                                 <label>Uso de Emojis</label>
                                 <select id="biz-emoji">
-                                    <option value="Moderado">Moderado (👌)</option>
-                                    <option value="Abundante">Abundante (🔥🚀👋)</option>
-                                    <option value="Nulo">Sin Emojis</option>
+                                    <option>Moderado</option>
+                                    <option>Abundante</option>
+                                    <option>Nulo</option>
                                 </select>
                             </div>
                             <div class="input-group full-width">
-                                <label>Políticas (Cambios/Devoluciones)</label>
+                                <label>Política de Devolución (Resumen)</label>
                                 <input type="text" id="biz-policy" placeholder="Ej: 30 días de cambio directo.">
                             </div>
                         </div>
 
                         <div class="prompt-preview-area">
-                            <label>📝 Prompt Generado (Instrucción Maestra)</label>
-                            <p class="hint">Esto es lo que leerá la IA para saber cómo comportarse.</p>
-                            <textarea id="final-prompt" rows="8" readonly></textarea>
+                            <p class="hint">// Prompt Final (La IA usará esto para responder)</p>
+                            <textarea id="final-prompt" rows="8" placeholder="Genera el prompt primero..."></textarea>
                         </div>
-
-                        <button type="submit" class="btn-primary full-width" style="margin-top:20px;">Guardar Configuración</button>
+                        
+                        <button type="submit" class="btn-primary">Guardar Configuración</button>
                     </form>
                 </div>
-
-                <div class="dash-card">
-                    <div class="card-header">
-                        <h3>⚡ Servicios Activos</h3>
-                    </div>
-                    <div class="modules-grid" id="active-modules-container">
-                        </div>
-                </div>
-
             </div>
+
+            <div id="panel-metrics" class="panel-section dash-grid hidden-panel">
+                <div class="dash-card" style="grid-column: 1/-1;">
+                    <div class="card-header"><h3>📊 Rendimiento en Tiempo Real</h3></div>
+                    <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                        <div class="metric-box">
+                            <p>Conversaciones</p>
+                            <div class="metric-number">1,240</div>
+                            <span class="metric-trend">▲ +12% hoy</span>
+                        </div>
+                        <div class="metric-box">
+                            <p>Ventas Cerradas</p>
+                            <div class="metric-number">86</div>
+                            <span class="metric-trend">▲ +5% hoy</span>
+                        </div>
+                        <div class="metric-box">
+                            <p>Tasa de Cierre</p>
+                            <div class="metric-number">18%</div>
+                            <span style="color: #cbd5e1;">Promedio</span>
+                        </div>
+                        <div class="metric-box">
+                            <p>Ahorro de Tiempo</p>
+                            <div class="metric-number">42h</div>
+                            <span class="metric-trend">⚡ IA Power</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-list" class="panel-section dash-grid hidden-panel">
+                <div class="dash-card" style="grid-column: 1/-1;">
+                    <div class="card-header">
+                        <h3>📝 Gestión Manual de Precios</h3>
+                        <button class="btn-secondary btn-sm">Exportar CSV</button>
+                    </div>
+                    <table class="denia-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>SKU</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Auriculares Sony WH-1000XM5</td>
+                                <td>SNY-001</td>
+                                <td>$350.000</td>
+                                <td><span class="status-pill" style="background:#005c4b;">Alto</span></td>
+                                <td><button class="btn-sm">Editar</button></td>
+                            </tr>
+                            <tr>
+                                <td>Samsung Galaxy S24 Ultra</td>
+                                <td>SMG-999</td>
+                                <td>$1.200.000</td>
+                                <td><span class="status-pill" style="background:#8a2be2;">Bajo</span></td>
+                                <td><button class="btn-sm">Editar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="panel-wholesale" class="panel-section dash-grid hidden-panel">
+                <div class="dash-card" style="grid-column: 1/-1;">
+                    <div class="card-header">
+                        <h3>📦 Configuración Mayorista</h3>
+                        <span class="status-pill" style="background:#8a2be2;">Activo</span>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Compra Mínima (Unidades)</label>
+                            <input type="number" placeholder="Ej: 10">
+                        </div>
+                        <div class="input-group">
+                            <label>Descuento Global (%)</label>
+                            <input type="number" placeholder="Ej: 15%">
+                        </div>
+                        <div class="input-group full-width">
+                            <label>Condiciones Especiales</label>
+                            <textarea rows="3" placeholder="Ej: Envíos gratis a partir de $500.000..."></textarea>
+                        </div>
+                    </div>
+                    <button class="btn-primary btn-sm" style="margin-top:20px;">Actualizar Reglas</button>
+                </div>
+            </div>
+
+            <div id="panel-handoff" class="panel-section dash-grid hidden-panel">
+                <div class="dash-card" style="grid-column: 1/-1;">
+                    <div class="card-header">
+                        <h3>👨‍💻 Derivación a Humano (Handoff)</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="input-group full-width">
+                            <label>Palabras Clave (Trigger)</label>
+                            <input type="text" value="hablar con humano, reclamo, gerente, error">
+                        </div>
+                        <div class="input-group">
+                            <label>Horario de Guardia</label>
+                            <select>
+                                <option>Siempre Activo</option>
+                                <option>Lunes a Viernes 9-18hs</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-custom-ai" class="panel-section dash-grid hidden-panel">
+                <div class="dash-card" style="grid-column: 1/-1;">
+                    <div class="card-header">
+                        <h3>🧠 Entrenamiento Personalizado (RAG)</h3>
+                    </div>
+                    <div class="upload-area" style="padding:30px;">
+                        <span style="font-size:2rem;">📚</span>
+                        <p>Sube manuales de venta, PDFs técnicos o historial de chats.</p>
+                        <button class="btn-secondary btn-sm" style="margin-top:15px;">Subir Conocimiento</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-vip" class="panel-section dash-grid hidden-panel">
+                <div class="dash-card" style="grid-column: 1/-1; border: 1px solid var(--primary-cyan);">
+                    <div class="card-header"><h3>💎 Soporte Prioritario VIP</h3></div>
+                    <div style="display:flex; align-items:center; gap:20px;">
+                        <div style="font-size:3rem;">📞</div>
+                        <div>
+                            <h4>Línea Directa de Ingeniería</h4>
+                            <h2 style="color:var(--primary-cyan);">+54 9 11 1234-5678</h2>
+                            <p style="font-size:0.8rem; color:#666;">ID de Cliente: CORP-8821</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-tickets" class="panel-section dash-grid hidden-panel">
+                <div class="dash-card" style="grid-column: 1/-1;">
+                    <div class="card-header">
+                        <h3>🎫 Tickets de Soporte</h3>
+                        <button class="btn-primary btn-sm">Nuevo Ticket</button>
+                    </div>
+                    <div style="text-align: center; padding: 50px;">
+                        <span style="font-size: 3rem;">✅</span>
+                        <p style="margin-top: 20px;">No tienes tickets pendientes.</p>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 
-    <script src="/js/script.js"></script> 
-    <script src="/js/dashboard.js"></script> </body>
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/script.js"></script>
+</body>
 </html>

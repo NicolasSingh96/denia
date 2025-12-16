@@ -1,22 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // =========================================================
-    // 1. RECUPERAR DATOS Y CORREGIR FORMATO (SOLUCIÓN DEL BUG)
+    // 1. RECUPERAR DATOS Y NORMALIZAR (CORREGIDO)
     // =========================================================
     const userName = localStorage.getItem('deniaUser') || 'Usuario';
     
-    // Recuperamos el plan y forzamos minúsculas y sin espacios extra
-    const rawPlan = localStorage.getItem('deniaPlan') || 'inicial';
-    const userPlan = rawPlan.toLowerCase().trim(); 
+    // Recuperamos lo que haya guardado el registro (ej: "Plan Desarrollo", "Desarrollo", "plan-desarrollo")
+    let rawPlan = localStorage.getItem('deniaPlan') || 'inicial';
+    rawPlan = rawPlan.toLowerCase(); // Convertimos todo a minúsculas
+
+    // LÓGICA DE DETECCIÓN INTELIGENTE
+    // Asignamos la "clave interna" correcta basándonos en palabras clave
+    let userPlan = 'inicial'; // Valor por defecto
+
+    if (rawPlan.includes('gratis') || rawPlan.includes('prueba')) {
+        userPlan = 'gratis';
+    } else if (rawPlan.includes('desarrollo')) {
+        userPlan = 'desarrollo';
+    } else if (rawPlan.includes('medida') || rawPlan.includes('corporativo')) {
+        userPlan = 'medida';
+    } else {
+        // Si no detecta nada especial, o dice 'inicial', se queda en inicial
+        userPlan = 'inicial';
+    }
 
     const userAddonPrice = localStorage.getItem('deniaAddonPrice') || '0';
 
-    console.log("Dashboard cargado. Plan detectado:", userPlan); // Para depuración
+    console.log("Plan detectado (Raw):", rawPlan);
+    console.log("Plan asignado (Key):", userPlan);
 
     // Mostrar nombre del usuario
     const displayEl = document.getElementById('user-display-name');
     if(displayEl) displayEl.innerText = userName;
-
 
     // =========================================================
     // 2. CONFIGURACIÓN MAESTRA DE PLANES
@@ -25,21 +40,32 @@ document.addEventListener('DOMContentLoaded', () => {
         'gratis': {
             name: 'Prueba Gratis', limit: 10, color: '#94a3b8',
             features: [], 
+            labels: [],
             promptRules: "Solo gestionas ventas MINORISTAS. No ofrezcas precios mayoristas."
         },
         'inicial': {
             name: 'Plan Inicial', limit: 2000, color: '#00f0ff',
             features: ['menu-metrics', 'menu-prices', 'menu-tickets'],
+            labels: ['label-gestion'],
             promptRules: "Gestionas ventas minoristas. Puedes derivar a soporte vía tickets si es necesario."
         },
         'desarrollo': {
             name: 'Plan Desarrollo', limit: 7000, color: '#8a2be2',
-            features: ['menu-metrics', 'menu-prices', 'menu-tickets', 'menu-wholesale', 'menu-handoff', 'menu-onboarding'],
+            features: [
+                'menu-metrics', 'menu-prices', 'menu-tickets', 
+                'menu-wholesale', 'menu-handoff', 'menu-onboarding'
+            ],
+            labels: ['label-gestion', 'label-avanzado'],
             promptRules: "Eres capaz de gestionar VENTAS MAYORISTAS y MINORISTAS. Si el cliente pide hablar con un humano, puedes realizar la derivación (Handoff)."
         },
         'medida': {
             name: 'Corporativo', limit: 'Ilimitado', color: '#fff',
-            features: ['menu-metrics', 'menu-prices', 'menu-tickets', 'menu-wholesale', 'menu-handoff', 'menu-onboarding', 'menu-custom-ai', 'menu-vip'],
+            features: [
+                'menu-metrics', 'menu-prices', 'menu-tickets', 
+                'menu-wholesale', 'menu-handoff', 'menu-onboarding',
+                'menu-custom-ai', 'menu-vip'
+            ],
+            labels: ['label-gestion', 'label-avanzado', 'label-corp'],
             promptRules: "Gestión integral (Mayorista/Minorista). Tienes entrenamiento personalizado avanzado."
         }
     };
@@ -59,36 +85,78 @@ document.addEventListener('DOMContentLoaded', () => {
     if(limitEl) limitEl.innerText = currentConfig.limit;
     
     const progressEl = document.getElementById('usage-progress');
-    if(progressEl) progressEl.style.width = '2%'; 
+    if(progressEl) progressEl.style.width = '5%'; 
 
-
-    // --- Activar Menús Ocultos (Feature Flags) ---
-    const activeContainer = document.getElementById('active-modules-container');
-    if(activeContainer) activeContainer.innerHTML = ''; // Limpiar contenedor
-
+    // --- DESBLOQUEAR MENÚS Y ETIQUETAS ---
     if (currentConfig.features) {
         currentConfig.features.forEach(featureId => {
             const el = document.getElementById(featureId);
-            if (el) {
-                el.classList.remove('hidden-feature');
-                // Agregar visualmente al resumen de servicios
-                addModuleCard(el.innerText.replace(/^[^\s]+\s/, '')); 
-            }
+            if (el) el.classList.remove('hidden-feature');
         });
     }
 
-    function addModuleCard(text) {
-        if(activeContainer) {
-            const div = document.createElement('div');
-            div.className = 'module-item';
-            div.innerText = `✅ ${text}`;
-            activeContainer.appendChild(div);
-        }
+    if (currentConfig.labels) {
+        currentConfig.labels.forEach(labelId => {
+            const el = document.getElementById(labelId);
+            if (el) el.classList.remove('hidden-feature');
+        });
     }
 
+    // =========================================================
+    // 3. NAVEGACIÓN SPA (Single Page Application)
+    // =========================================================
+    const navMapping = {
+        'menu-general': 'panel-general',
+        'menu-metrics': 'panel-metrics',
+        'menu-prices': 'panel-list',
+        'menu-tickets': 'panel-tickets',
+        'menu-wholesale': 'panel-wholesale',
+        'menu-handoff': 'panel-handoff',
+        'menu-onboarding': 'panel-general', // Redirige al general o crea uno nuevo
+        'menu-custom-ai': 'panel-custom-ai',
+        'menu-vip': 'panel-vip'
+    };
+
+    const menuLinks = document.querySelectorAll('.menu-item');
+    const sectionTitle = document.getElementById('section-title');
+
+    menuLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Ignorar el botón de cerrar sesión
+            if(link.classList.contains('logout-btn')) return;
+
+            e.preventDefault();
+
+            // 1. UI Menú: Activar link
+            menuLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            // 2. Ocultar todos los paneles
+            document.querySelectorAll('.panel-section').forEach(panel => {
+                panel.classList.add('hidden-panel');
+            });
+
+            // 3. Mostrar el panel destino
+            const targetPanelId = navMapping[link.id];
+            if(targetPanelId) {
+                const targetPanel = document.getElementById(targetPanelId);
+                if (targetPanel) {
+                    targetPanel.classList.remove('hidden-panel');
+                    // Actualizar Título
+                    if(sectionTitle) sectionTitle.innerText = link.innerText.trim();
+                }
+            }
+
+            // 4. Cerrar menú en móvil
+            const sidebar = document.querySelector('.sidebar');
+            if(window.innerWidth <= 900 && sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+    });
 
     // =========================================================
-    // 3. LÓGICA DE PACK DE FOTOS (ADICIONAL)
+    // 4. LÓGICA DE PACK DE FOTOS (ADICIONAL)
     // =========================================================
     const addonPrice = parseInt(userAddonPrice);
     const photosInfoBox = document.getElementById('photos-pack-info');
@@ -97,17 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const catalogStatus = document.getElementById('catalog-status');
     const catalogTitle = document.getElementById('catalog-title');
 
-    let extraPromptRules = ""; // Variable para guardar regla del bot
+    let extraPromptRules = "";
 
     if (addonPrice > 0) {
-        // --- CLIENTE TIENE PACK DE FOTOS ---
         if(photosInfoBox) photosInfoBox.style.display = 'block';
         if(uploadTitle) uploadTitle.innerText = 'Sube tu Lista de Precios (Excel)';
         
         let packName = 'Pack Fotos';
         let delivery = '72hs';
 
-        // Detectar cuál pack es según el precio
         if (addonPrice === 45000) { packName = 'Pack 50'; delivery = '72hs'; }
         else if (addonPrice === 120000) { packName = 'Pack 200'; delivery = '72hs'; }
         else if (addonPrice === 450000) { packName = 'Pack 1000'; delivery = '7 días'; }
@@ -119,30 +185,26 @@ document.addEventListener('DOMContentLoaded', () => {
             catalogStatus.style.background = '#8a2be2';
         }
         
-        addModuleCard('Generación Fotos IA');
-        
-        // Regla especial para el prompt del bot
-        extraPromptRules = `NOTA IMPORTANTE: El catálogo contiene imágenes referenciales generadas por IA. Aclara al cliente que son representaciones de alta calidad si preguntan por fotos reales.`;
+        extraPromptRules = `NOTA IMPORTANTE: El catálogo contiene imágenes referenciales generadas por IA. Aclara al cliente que son representaciones de alta calidad.`;
 
     } else {
-        // --- CLIENTE SIN PACK ---
         if(photosInfoBox) photosInfoBox.style.display = 'none';
         if(uploadTitle) uploadTitle.innerText = 'Sube tu Catálogo Listo';
         extraPromptRules = "El catálogo utiliza las fotos proporcionadas por el cliente o placeholders.";
     }
 
-
     // =========================================================
-    // 4. GENERADOR DE PROMPT BOT (LÓGICA CONTEXTUAL)
+    // 5. GENERADOR DE PROMPT BOT
     // =========================================================
     const generateBtn = document.getElementById('generate-prompt-btn');
     const configForm = document.getElementById('bot-config-form');
     
     if (generateBtn && configForm) {
-        
-        loadBotConfig(); // Cargar datos previos
+        loadBotConfig(); 
 
-        generateBtn.addEventListener('click', () => {
+        generateBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Evitar submit del form
+            
             // Captura de inputs
             const name = document.getElementById('biz-name').value || '[Nombre Negocio]';
             const industry = document.getElementById('biz-industry').value || 'Comercio General';
@@ -155,57 +217,48 @@ document.addEventListener('DOMContentLoaded', () => {
             const emoji = document.getElementById('biz-emoji').value;
             const policy = document.getElementById('biz-policy').value || 'Consultar';
 
-            // Regla Emojis
             let emojiRule = "";
             if(emoji === 'Nulo') emojiRule = "No uses emojis. Mantén un tono sobrio.";
             if(emoji === 'Moderado') emojiRule = "Usa emojis moderadamente (👌).";
-            if(emoji === 'Abundante') emojiRule = "Usa emojis frecuentemente para sonar muy amigable (🚀🔥).";
+            if(emoji === 'Abundante') emojiRule = "Usa emojis frecuentemente (🚀🔥).";
 
-            // Inyectamos las capacidades del plan actual + reglas de fotos
             const planCapabilities = currentConfig.promptRules; 
 
-            // Construcción del Prompt
             const prompt = `
 ACTÚA COMO: Asistente virtual experto en ventas para "${name}".
 RUBRO: ${industry}.
 PROPUESTA DE VALOR: ${desc}
 
-DATOS OPERATIVOS (Úsalos para responder):
+DATOS OPERATIVOS:
 - Horarios: ${hours}
 - Ubicación: ${location}
 - Pagos: ${payment}
 - Envíos: ${shipping}
 - Políticas: ${policy}
 
-PERSONALIDAD Y REGLAS:
+PERSONALIDAD:
 - Tono: ${tone}.
 - ${emojiRule}
-- Objetivo Principal: Responder dudas, asesorar y cerrar ventas.
 
 CAPACIDADES DE TU CUENTA (${currentConfig.name.toUpperCase()}):
 - ${planCapabilities}
 - ${extraPromptRules}
 
-INSTRUCCIÓN FINAL:
-Si no sabes un dato específico (ej: stock exacto en tiempo real), pide amablemente verificar manual. Prioriza siempre la buena atención y guía al cierre.
+INSTRUCCIÓN:
+Responde dudas, asesora y cierra ventas. Si no sabes un dato, pide verificar manual.
             `.trim();
 
-            // Insertar en textarea
             const textArea = document.getElementById('final-prompt');
             textArea.value = prompt;
             textArea.style.borderColor = '#00f0ff';
             setTimeout(() => textArea.style.borderColor = 'transparent', 500);
         });
 
-        // Guardar configuración
         configForm.addEventListener('submit', (e) => {
             e.preventDefault();
             localStorage.setItem('deniaBotPrompt', document.getElementById('final-prompt').value);
-            
-            // Guardar inputs individuales
             const inputs = configForm.querySelectorAll('input, select');
             inputs.forEach(inp => localStorage.setItem('deniaConf_' + inp.id, inp.value));
-            
             alert('¡Configuración guardada exitosamente!');
         });
     }
@@ -220,9 +273,8 @@ Si no sabes un dato específico (ej: stock exacto en tiempo real), pide amableme
         if(savedPrompt) document.getElementById('final-prompt').value = savedPrompt;
     }
 
-
     // =========================================================
-    // 5. DRAG & DROP (SUBIDA DE ARCHIVOS)
+    // 6. DRAG & DROP
     // =========================================================
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
@@ -260,23 +312,25 @@ Si no sabes un dato específico (ej: stock exacto en tiempo real), pide amableme
         });
     }
 
-    // Lógica Menú Hamburguesa
-const menuToggle = document.getElementById('menu-toggle');
-const sidebar = document.querySelector('.sidebar');
+    // =========================================================
+    // 7. MENÚ MÓVIL (HAMBURGUESA)
+    // =========================================================
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
 
-if (menuToggle && sidebar) {
-    menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('active'); // CSS hace la animación
-    });
-}
-
-// Cerrar sidebar al hacer click fuera (Opcional, mejora UX)
-document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 900 && 
-        !sidebar.contains(e.target) && 
-        !menuToggle.contains(e.target) && 
-        sidebar.classList.contains('active')) {
-        sidebar.classList.remove('active');
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
     }
-});
+
+    // Cerrar sidebar al hacer click fuera
+    document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 900 && 
+            !sidebar.contains(e.target) && 
+            !menuToggle.contains(e.target) && 
+            sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+        }
+    });
 });

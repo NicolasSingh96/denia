@@ -12,14 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. VARIABLES DE ESTADO ---
     let currentStep = 0;
     
-    // --- 3. DETECTAR PLAN (URL) - CORRECCIÓN APLICADA ---
+    // --- 3. DETECTAR PLAN (CORREGIDO: Lee LocalStorage) ---
+    // Antes buscaba en URL, ahora busca en la memoria donde lo guardó el index.html
+    const storedPlan = localStorage.getItem('deniaPlan');
     const urlParams = new URLSearchParams(window.location.search);
-    let rawPlan = urlParams.get('plan') || 'inicial';
     
-    // Forzamos minúsculas para evitar errores (Ej: "Desarrollo" -> "desarrollo")
-    let planParam = rawPlan.toLowerCase(); 
+    // Prioridad: 1. Memoria (localStorage), 2. URL (por si acaso), 3. Default 'inicial'
+    let rawPlan = storedPlan || urlParams.get('plan') || 'inicial';
+    
+    // Limpieza de texto
+    let planParam = rawPlan.toLowerCase().trim(); 
 
-    // Validamos que el plan exista, si no, usamos 'inicial'
+    // Validamos que el plan exista en nuestra lista de precios
     if (PLAN_PRICES[planParam] === undefined) {
         console.warn(`⚠️ Plan "${planParam}" no reconocido. Usando "inicial" por defecto.`);
         planParam = 'inicial';
@@ -27,8 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let basePrice = PLAN_PRICES[planParam];
 
-    // Guardamos en variable global para el guardado final
+    // Guardamos en variable global y actualizamos localStorage por si venía de URL
     window.selectedPlanKey = planParam; 
+    localStorage.setItem('deniaPlan', planParam); // Aseguramos persistencia
+    
     console.log(`ℹ️ Plan detectado: ${planParam} ($${basePrice})`);
 
     // --- 4. REFERENCIAS DOM ---
@@ -36,24 +42,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
     const progressFill = document.getElementById('progress-fill');
-    const nameEl = document.getElementById('selected-plan-name');
-    const priceEl = document.getElementById('selected-plan-price');
+    
+    // Elementos donde mostramos el nombre del plan en el HTML
+    const nameEl = document.getElementById('selected-plan-name'); // Asegúrate de tener este ID en tu HTML (Paso 2)
+    const priceEl = document.getElementById('selected-plan-price'); // Asegúrate de tener este ID en tu HTML (Paso 2)
 
-    // Verificar que todo exista para evitar errores
     if (!nextBtn || !prevBtn || steps.length === 0) {
         console.error("🔴 ERROR CRÍTICO: Faltan elementos en el HTML.");
         return;
     }
 
     // --- 5. INICIALIZACIÓN UI ---
-    // Poner nombre y precio base en el paso 2
-    if(nameEl) nameEl.innerText = `Plan ${planParam.charAt(0).toUpperCase() + planParam.slice(1)}`;
+    
+    // Formatear nombre para mostrar (ej: "desarrollo" -> "Plan Desarrollo")
+    let displayName = "Plan Inicial";
+    if (planParam === 'gratis') displayName = "Prueba Gratis";
+    else if (planParam === 'desarrollo') displayName = "Plan Desarrollo";
+    else if (planParam === 'medida') displayName = "Plan Corporativo";
+    else displayName = "Plan " + planParam.charAt(0).toUpperCase() + planParam.slice(1);
+
+    // Actualizar textos en el paso 2 (Resumen)
+    if(nameEl) nameEl.innerText = displayName;
     if(priceEl) priceEl.innerText = `$${basePrice.toLocaleString('es-AR')}`;
 
-    // Función de cálculo global (para los radio buttons)
+    // Función de cálculo global
     window.calculateTotal = function() {
         const radios = document.getElementsByName('addon-pack');
         let addonPrice = 0;
+        
+        // Si es plan a medida, el precio base es 0 o "A cotizar"
+        if(planParam === 'medida') {
+            const totalEl = document.getElementById('final-total');
+            if(totalEl) totalEl.innerText = "A Cotizar";
+            if (currentStep === steps.length - 1) nextBtn.innerText = "Finalizar Solicitud";
+            window.selectedAddonPrice = 0;
+            return;
+        }
+
         for (const r of radios) {
             if (r.checked) {
                 addonPrice = parseInt(r.value) || 0;
@@ -61,48 +86,41 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         const total = basePrice + addonPrice;
-        window.selectedAddonPrice = addonPrice; // Guardar para submit
+        window.selectedAddonPrice = addonPrice;
 
         // Actualizar visuales
         const totalEl = document.getElementById('final-total');
         if(totalEl) totalEl.innerText = `$${total.toLocaleString('es-AR')}`;
 
-        // Si estamos en el último paso, actualizar botón pagar
+        // Actualizar botón pagar en el último paso
         if (currentStep === steps.length - 1) {
             nextBtn.innerText = `Pagar $${total.toLocaleString('es-AR')}`;
         }
     };
 
-    // Ejecutar cálculo inicial y UI
+    // Ejecutar cálculo inicial
     calculateTotal();
     updateUI();
 
     // --- 6. EVENTOS DE NAVEGACIÓN ---
     
-    // BOTÓN SIGUIENTE
     nextBtn.addEventListener('click', () => {
-        console.log(`👉 Click en Siguiente. Paso actual: ${currentStep}`);
-
         if (validateCurrentStep()) {
-            console.log("✅ Validación exitosa.");
-            
             if (currentStep < steps.length - 1) {
-                // Avanzar
                 currentStep++;
                 updateUI();
+                // Recalcular al cambiar de paso por si cambiaron algo
+                calculateTotal();
             } else {
-                // Finalizar (Submit)
                 submitForm();
             }
         } else {
-            console.warn("❌ Validación fallida.");
-            // Efecto visual de error
+            // Efecto Shake de error
             nextBtn.classList.add('shake-btn');
             setTimeout(() => nextBtn.classList.remove('shake-btn'), 300);
         }
     });
 
-    // BOTÓN ATRÁS
     prevBtn.addEventListener('click', () => {
         if (currentStep > 0) {
             currentStep--;
@@ -110,10 +128,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Event listener para los radio buttons de addons
+    const addonRadios = document.getElementsByName('addon-pack');
+    addonRadios.forEach(radio => {
+        radio.addEventListener('change', window.calculateTotal);
+    });
+
     // --- 7. FUNCIONES LÓGICAS ---
 
     function updateUI() {
-        // Mostrar/Ocultar Pasos
+        // Mostrar paso actual
         steps.forEach((step, index) => {
             if (index === currentStep) {
                 step.classList.add('active');
@@ -124,29 +148,32 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Barra de progreso
+        // Barra progreso
         if (progressFill) {
             const percent = (currentStep / (steps.length - 1)) * 100;
             progressFill.style.width = `${percent}%`;
         }
 
-        // Indicadores (Bolitas)
+        // Indicadores circulares
         document.querySelectorAll('.step-indicator').forEach((ind, i) => {
             ind.classList.toggle('active', i === currentStep);
             ind.classList.toggle('completed', i < currentStep);
         });
 
-        // Visibilidad Botones
+        // Botones
         prevBtn.style.display = currentStep === 0 ? 'none' : 'block';
 
         if (currentStep === steps.length - 1) {
             // Último paso
-            const currentTotal = document.getElementById('final-total')?.innerText || '$0';
-            nextBtn.innerText = `Pagar ${currentTotal}`;
+            if(planParam === 'medida') {
+                nextBtn.innerText = "Enviar Solicitud";
+            } else {
+                // Forzamos un recálculo para asegurar que el precio esté bien en el botón
+                calculateTotal(); 
+            }
             nextBtn.style.background = '#00ff88';
             nextBtn.style.color = '#000';
         } else {
-            // Pasos normales
             nextBtn.innerText = 'Siguiente';
             nextBtn.style.background = ''; 
             nextBtn.style.color = '#fff';
@@ -159,20 +186,13 @@ document.addEventListener('DOMContentLoaded', () => {
         let isValid = true;
 
         inputs.forEach(input => {
-            // Chequeamos si está vacío o formato inválido
             if (!input.value.trim() || !input.checkValidity()) {
                 isValid = false;
-                input.style.borderColor = '#ff4757'; // Rojo error
-                input.style.boxShadow = '0 0 5px rgba(255, 71, 87, 0.5)';
+                input.classList.add('input-error'); // Clase definida en CSS
                 
-                // Limpiar error al escribir
                 input.addEventListener('input', () => {
-                    input.style.borderColor = '';
-                    input.style.boxShadow = '';
+                    input.classList.remove('input-error');
                 }, { once: true });
-            } else {
-                input.style.borderColor = '';
-                input.style.boxShadow = '';
             }
         });
         
@@ -180,30 +200,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function submitForm() {
-        console.log("💾 Guardando datos y redirigiendo...");
         nextBtn.innerText = 'Procesando...';
         nextBtn.disabled = true;
 
-        // Capturar datos finales
         const nombreUser = document.getElementById('nombre')?.value || 'Usuario';
         const finalPlan = window.selectedPlanKey || 'inicial';
-        const finalAddon = window.selectedAddonPrice || '0';
+        const finalAddon = window.selectedAddonPrice || 0;
 
-        // Log de seguridad para ver qué estamos guardando
-        console.log("Datos a guardar:", { nombre: nombreUser, plan: finalPlan, addon: finalAddon });
+        console.log("💾 GUARDANDO:", { nombre: nombreUser, plan: finalPlan, addon: finalAddon });
 
-        // Guardar en LocalStorage
+        // Guardar datos críticos para el Dashboard
         localStorage.setItem('deniaUser', nombreUser);
         localStorage.setItem('deniaPlan', finalPlan);
         localStorage.setItem('deniaAddonPrice', finalAddon.toString());
 
-        // Redirigir
+        // Simular delay de red y redirigir
         setTimeout(() => {
             window.location.href = 'dashboard.html';
-        }, 1000);
+        }, 1500);
     }
 
-    // Formateo tarjeta de crédito (espacios cada 4 números)
+    // Formateo tarjeta
     const cardInp = document.getElementById('card-number');
     if(cardInp) {
         cardInp.addEventListener('input', e => {
