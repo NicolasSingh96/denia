@@ -2439,3 +2439,31 @@ summary::after {
         text-align: center;
     }
 }
+
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50%;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(37, 211, 102, 0.6); /* Glow verde */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(37, 211, 102, 0.8);
+}
+
+.whatsapp-float img {
+    width: 35px;
+    height: 35px;
+}
