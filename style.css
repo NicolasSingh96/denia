@@ -895,43 +895,73 @@ summary::after { content: '+'; font-size: 1.5rem; color: var(--primary-cyan); }
 }
 .metric-trend { font-size: 0.8rem; color: #00ff88; }
 
-/* --- CORRECCIÓN RESPONSIVE: LISTA MODIFICABLE --- */
+/* --- TABLA RESPONSIVE: MODO TARJETAS (Móvil) --- */
 
-/* 1. Contenedor con Scroll para la Tabla */
-.table-responsive {
-    width: 100%;
-    overflow-x: auto; /* Habilita scroll horizontal si es necesario */
-    -webkit-overflow-scrolling: touch; /* Suavidad en iPhone */
-    margin-top: 20px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05); /* Borde sutil al contenedor */
-}
+@media (max-width: 900px) {
+    
+    /* 1. Ocultamos los encabezados de la tabla (Producto, SKU, etc.) */
+    .denia-table thead {
+        display: none;
+    }
 
-/* 2. Forzar ancho mínimo a la tabla */
-.denia-table {
-    width: 100%;
-    /* Truco: Forzamos que la tabla mida al menos 700px.
-       Si la pantalla es más chica (móvil), se activará el scroll del contenedor padre. */
-    min-width: 700px; 
-    border-collapse: collapse;
-}
+    /* 2. Convertimos cada FILA en una TARJETA */
+    .denia-table tr {
+        display: block;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+    }
 
-/* 3. Ajuste del Encabezado de la Tarjeta en Móvil */
-@media (max-width: 600px) {
-    .card-header {
-        flex-direction: column; /* Apilar elementos verticalmente */
-        align-items: flex-start; /* Alinear a la izquierda */
-        gap: 15px; /* Espacio entre título y botón */
+    /* 3. Convertimos cada CELDA en una línea con etiqueta */
+    .denia-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 12px 0;
+        text-align: right;
+        font-size: 0.9rem;
+    }
+
+    .denia-table td:last-child {
+        border-bottom: none; /* Quitamos borde al último */
+        justify-content: center;
+        padding-top: 20px;
+        margin-top: 10px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* 4. AGREGAMOS LAS ETIQUETAS AUTOMÁTICAMENTE (Magia CSS) */
+    /* Esto pone el texto "Producto", "SKU" a la izquierda de cada dato */
+    
+    .denia-table td:nth-child(1)::before { 
+        content: "Producto"; 
+        color: var(--primary-cyan); 
+        font-weight: bold; 
+        margin-right: 15px;
     }
     
-    .card-header h3 {
-        font-size: 1.2rem; /* Ajustar tamaño de letra */
+    .denia-table td:nth-child(2)::before { 
+        content: "SKU"; 
+        color: #94a3b8; 
+    }
+    
+    .denia-table td:nth-child(3)::before { 
+        content: "Precio"; 
+        color: #94a3b8; 
+    }
+    
+    .denia-table td:nth-child(4)::before { 
+        content: "Stock"; 
+        color: #94a3b8; 
     }
 
-    .card-header .btn-sm {
-        width: 100%; /* Botón ocupa todo el ancho */
-        margin-left: 0;
-        text-align: center;
+    /* Ajuste para que el botón ocupe todo el ancho */
+    .denia-table .btn-sm {
+        width: 100%;
         display: block;
+        text-align: center;
     }
 }
