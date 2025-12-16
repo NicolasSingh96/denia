@@ -894,3 +894,44 @@ summary::after { content: '+'; font-size: 1.5rem; color: var(--primary-cyan); }
     margin: 10px 0;
 }
 .metric-trend { font-size: 0.8rem; color: #00ff88; }
+
+/* --- CORRECCIÓN RESPONSIVE: LISTA MODIFICABLE --- */
+
+/* 1. Contenedor con Scroll para la Tabla */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto; /* Habilita scroll horizontal si es necesario */
+    -webkit-overflow-scrolling: touch; /* Suavidad en iPhone */
+    margin-top: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05); /* Borde sutil al contenedor */
+}
+
+/* 2. Forzar ancho mínimo a la tabla */
+.denia-table {
+    width: 100%;
+    /* Truco: Forzamos que la tabla mida al menos 700px.
+       Si la pantalla es más chica (móvil), se activará el scroll del contenedor padre. */
+    min-width: 700px; 
+    border-collapse: collapse;
+}
+
+/* 3. Ajuste del Encabezado de la Tarjeta en Móvil */
+@media (max-width: 600px) {
+    .card-header {
+        flex-direction: column; /* Apilar elementos verticalmente */
+        align-items: flex-start; /* Alinear a la izquierda */
+        gap: 15px; /* Espacio entre título y botón */
+    }
+    
+    .card-header h3 {
+        font-size: 1.2rem; /* Ajustar tamaño de letra */
+    }
+
+    .card-header .btn-sm {
+        width: 100%; /* Botón ocupa todo el ancho */
+        margin-left: 0;
+        text-align: center;
+        display: block;
+    }
+}
