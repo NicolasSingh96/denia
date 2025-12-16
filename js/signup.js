@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let basePrice = PLAN_PRICES[planParam];
 
     // Guardamos en variable global y actualizamos localStorage por si venía de URL
+    
     window.selectedPlanKey = planParam; 
     localStorage.setItem('deniaPlan', planParam); // Aseguramos persistencia
     

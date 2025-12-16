@@ -276,6 +276,7 @@ Responde dudas, asesora y cierra ventas. Si no sabes un dato, pide verificar man
     // =========================================================
     // 6. DRAG & DROP
     // =========================================================
+
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
     const fileList = document.getElementById('file-list');
@@ -315,6 +316,7 @@ Responde dudas, asesora y cierra ventas. Si no sabes un dato, pide verificar man
     // =========================================================
     // 7. MENÚ MÓVIL (HAMBURGUESA)
     // =========================================================
+    
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.querySelector('.sidebar');
 
