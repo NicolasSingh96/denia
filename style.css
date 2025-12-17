@@ -2895,3 +2895,49 @@ header .logo-text,
         height: 35px !important; /* Aún más chico en celular */
     }
 }
+
+/* =========================================
+   LOGO DASHBOARD (Sidebar) - TAMAÑO AUMENTADO
+   ========================================= */
+
+/* 1. Contenedor del Logo en el Sidebar */
+.sidebar .logo-wrapper {
+    /* Reseteamos estilos que puedan venir del Header */
+    position: relative;
+    top: auto; left: auto;
+    transform: none;
+    
+    /* TAMAÑO MÁS GRANDE */
+    width: 100%; /* Ocupa el ancho disponible */
+    max-width: 220px; /* Lo limitamos para que no toque los bordes del sidebar (que mide 260px) */
+    height: auto !important; /* Altura automática para no deformar */
+    
+    margin: 0 auto 30px; /* Centrado horizontal y margen abajo */
+    padding: 0;
+    
+    /* Quitamos fondos o bordes raros si se heredaron */
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* 2. La Imagen del Logo en el Sidebar */
+.sidebar .logo-img-main {
+    width: 100% !important; /* Que llene el contenedor de 220px */
+    height: auto !important;
+    max-width: none;
+    
+    /* Brillo para que destaque en el fondo oscuro */
+    filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.4));
+    
+    /* Aseguramos que se vea completa */
+    object-fit: contain;
+}
+
+/* 3. Ajuste para Celulares (Cuando el sidebar ocupa toda la pantalla) */
+@media (max-width: 900px) {
+    .sidebar .logo-wrapper {
+        max-width: 150px; /* Un poco más chico en el menú móvil */
+        margin-bottom: 20px;
+    }
+}
