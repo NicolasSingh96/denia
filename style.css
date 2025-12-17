@@ -2467,3 +2467,39 @@ summary::after {
     width: 35px;
     height: 35px;
 }
+
+/* --- FIX: TYPEWRITER SCROLL EN MÓVIL --- */
+
+@media (max-width: 768px) {
+    /* 1. Evitar que el Hero "baile" o haga scroll horizontal */
+    .hero {
+        overflow-x: hidden; /* Corta cualquier cosa que se salga del ancho */
+        width: 100%;
+        position: relative;
+    }
+
+    /* 2. Ajuste del Contenedor del Texto */
+    .hero-content {
+        /* Aseguramos que el logo nuevo no empuje el texto fuera de pantalla */
+        padding: 0 15px; 
+        max-width: 100%;
+        box-sizing: border-box; /* Para que el padding no sume ancho */
+    }
+
+    /* 3. Estabilizar el Typewriter */
+    .typewriter h1, .typewriter p {
+        /* Achicamos un pelín la letra en móvil para dar aire al logo */
+        font-size: 1.8rem; 
+        
+        /* IMPORTANTE: Esto evita que el cursor parpadeante genere scroll */
+        white-space: pre-wrap; /* Permite saltos de línea naturales */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
+    /* Opcional: Si el logo quedó muy grande en móvil, lo ajustamos solo ahí */
+    .logo-wrapper {
+        transform: scale(0.85); /* Lo achicamos un 15% solo en celus */
+        margin-bottom: 10px; /* Menos espacio abajo para acercar el texto */
+    }
+}
