@@ -433,7 +433,7 @@ h1.typewriter-container {
 }
 
 #typewriter-text {
-    background: linear-gradient(to right, #00f0ff, #8a2be2);
+    background: white;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
