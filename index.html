@@ -174,7 +174,7 @@
         </div>
     </div>
 
-    <div class="pricing-container">
+<div class="pricing-container">
         
     <div class="pricing-card">
         <div class="plan-name">Prueba Gratis</div>
@@ -198,7 +198,7 @@
             <li class="disabled"><span>❌</span> Onboarding asistido</li>
             <li class="disabled"><span>❌</span> Cobro integrado</li>
         </ul>
-        <a href="signup.html" class="btn-secondary full-width" onclick="selectPlan('gratis')">Probar Gratis</a>
+        <a href="javascript:void(0)" class="btn-secondary full-width" onclick="selectPlan('gratis')">Probar Gratis</a>
     </div>
 
     <div class="pricing-card">
@@ -223,7 +223,7 @@
             <li class="disabled"><span>❌</span> Onboarding asistido</li>
             <li><span>✅</span> Cobro integrado (MercadoPago + Decidir)</li>
         </ul>
-        <a href="signup.html" class="btn-primary full-width" onclick="selectPlan('inicial')">Elegir Inicial</a>
+        <a href="javascript:void(0)" class="btn-primary full-width" onclick="selectPlan('inicial')">Elegir Inicial</a>
     </div>
 
     <div class="pricing-card featured">
@@ -249,7 +249,7 @@
             <li><span>✅</span> Onboarding asistido</li>
             <li><span>✅</span> Cobro integrado con confirmación</li>
         </ul>
-        <a href="signup.html" class="btn-primary full-width" onclick="selectPlan('desarrollo')">Elegir Desarrollo</a>
+        <a href="javascript:void(0)" class="btn-primary full-width" onclick="selectPlan('desarrollo')">Elegir Desarrollo</a>
     </div>
 
     <div class="pricing-card">
@@ -273,7 +273,7 @@
             <li><span>✅</span> Onboarding asistido</li>
             <li><span>✅</span> Cobro integrado</li>
         </ul>
-        <a href="signup.html" class="btn-secondary full-width" onclick="selectPlan('medida')">Contactar Ventas</a>
+        <a href="javascript:void(0)" class="btn-secondary full-width" onclick="selectPlan('medida')">Contactar Ventas</a>
     </div>
 </div>
 
@@ -440,11 +440,18 @@
     </div>
 
     <script src="/js/script.js"></script>
+    
     <script>
     function selectPlan(planName) {
-        // Guarda el plan elegido en la memoria del navegador
+        // 1. Guardar el plan en el navegador
         localStorage.setItem('deniaPlan', planName);
-        console.log("Plan seleccionado guardado:", planName);
+        console.log("✅ Plan guardado en memoria:", planName);
+        
+        // 2. Esperar 150ms para asegurar que Netlify/Navegador procesó el dato
+        // y luego forzar la navegación manualmente.
+        setTimeout(() => {
+            window.location.href = 'signup.html';
+        }, 150);
     }
 </script>
 
