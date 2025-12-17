@@ -2852,3 +2852,46 @@ input:focus, textarea:focus {
 }
 
 @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- AJUSTE COMPACTO PARA EL HEADER (Landing Page) --- */
+
+/* 1. Reducir espacio vertical del contenedor del menú */
+header, nav, .navbar {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    min-height: auto !important; /* Evitar alturas mínimas forzadas */
+}
+
+/* 2. Achicar el contenedor del Logo */
+header .logo-wrapper, 
+.navbar .logo-wrapper {
+    height: 60px !important; /* Forzamos una altura menor (antes era 100px o más) */
+    width: auto !important; /* Que se ajuste al contenido */
+    margin-bottom: 0 !important; /* Eliminamos márgenes extra abajo */
+    padding: 0 !important;
+    transform: none !important; /* Quitamos escalas raras si las hubiera */
+    display: flex;
+    align-items: center;
+}
+
+/* 3. Reducir la imagen del Logo */
+header .logo-img-main,
+.navbar .logo-img-main {
+    height: 40px !important; /* Tamaño estándar de barra de navegación */
+    width: auto;
+    /* Ajustamos el efecto Neon para que no sea tan expansivo aquí */
+    filter: drop-shadow(0 0 5px var(--primary-cyan)); 
+}
+
+/* 4. Si tienes texto debajo del logo, lo ocultamos o pegamos más */
+header .logo-text, 
+.navbar p {
+    display: none; /* Opcional: Ocultar slogan en el menú para ganar espacio */
+}
+
+/* 5. Ajuste para Móvil (Celulares) */
+@media (max-width: 768px) {
+    header .logo-img-main {
+        height: 35px !important; /* Aún más chico en celular */
+    }
+}
