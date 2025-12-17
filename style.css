@@ -2503,3 +2503,352 @@ summary::after {
         margin-bottom: 10px; /* Menos espacio abajo para acercar el texto */
     }
 }
+
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
+:root {
+    --primary-cyan: #00f0ff;
+    --secondary-violet: #8a2be2;
+    --bg-dark: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-color: #e2e8f0;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --font-main: 'Inter', sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
+/* =========================================
+   2. ESTRUCTURA DASHBOARD (Layout Fix)
+   ========================================= */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Fijo */
+.sidebar {
+    width: 260px;
+    background: rgba(15, 23, 42, 0.95);
+    border-right: 1px solid var(--border-color);
+    position: fixed;
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transition: transform 0.3s ease;
+}
+
+/* Main Content que respeta el Sidebar */
+.main-content {
+    margin-left: 260px; /* Espacio para el sidebar */
+    width: calc(100% - 260px); /* Resto del ancho */
+    padding: 30px;
+    background: radial-gradient(circle at top right, rgba(0, 240, 255, 0.05), transparent 40%);
+    min-height: 100vh;
+}
+
+/* Toggle Menu (Solo móvil) */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: 15px; right: 15px;
+    z-index: 200;
+    background: var(--card-bg);
+    border: 1px solid var(--primary-cyan);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* =========================================
+   3. SIDEBAR & LOGO
+   ========================================= */
+.logo-wrapper {
+    text-align: center;
+    margin-bottom: 30px;
+    /* Efecto "Neon Soul" contenedor */
+    position: relative;
+    padding: 10px;
+}
+
+.logo-img-main {
+    max-width: 80%;
+    height: auto;
+    filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.6));
+}
+
+.plan-status-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.status-label { font-size: 0.8rem; color: #94a3b8; }
+.plan-badge { 
+    font-family: var(--font-display); 
+    font-weight: bold; 
+    color: var(--primary-cyan); 
+    margin: 5px 0 10px;
+}
+
+.sidebar-menu { flex: 1; overflow-y: auto; }
+
+.menu-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #64748b;
+    margin: 20px 0 10px;
+    letter-spacing: 1px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.2s;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+.menu-item:hover, .menu-item.active {
+    background: rgba(0, 240, 255, 0.1);
+    color: var(--primary-cyan);
+}
+
+.menu-item span { margin-right: 10px; }
+
+/* Ocultar features no disponibles */
+.hidden-feature { display: none !important; }
+
+/* Footer Sidebar */
+.sidebar-footer { margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px; }
+.logout-btn { color: #ff4757; text-decoration: none; font-size: 0.9rem; }
+
+/* =========================================
+   4. PANELES & TARJETAS
+   ========================================= */
+.dash-header { margin-bottom: 30px; }
+.dash-header h1 { font-family: var(--font-display); font-size: 2rem; color: white; }
+
+/* Grid del Dashboard */
+.dash-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.panel-section { width: 100%; animation: fade-in 0.4s ease; }
+.hidden-panel { display: none !important; }
+
+/* Estilo Tarjeta Base (Glassmorphism) */
+.dash-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    /* Forzar ancho completo en paneles */
+    grid-column: 1 / -1;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.card-header h3 { color: white; font-family: var(--font-display); }
+
+/* =========================================
+   5. FORMULARIOS & INPUTS
+   ========================================= */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.input-group { margin-bottom: 15px; }
+.input-group.full-width { grid-column: 1 / -1; }
+
+label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #cbd5e1; }
+
+input, select, textarea {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: var(--font-main);
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-cyan);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--primary-cyan), #00c3ff);
+    color: #000;
+    font-weight: bold;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 240, 255, 0.3); }
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* =========================================
+   6. COMPONENTES ESPECÍFICOS (VIP, Upload, etc)
+   ========================================= */
+/* VIP Panel */
+.vip-layout {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 20px 0;
+}
+.vip-icon {
+    font-size: 3.5rem;
+    background: rgba(0, 240, 255, 0.1);
+    width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--primary-cyan);
+}
+
+/* Upload Area Placeholder */
+.upload-placeholder {
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    transition: 0.3s;
+}
+.upload-placeholder:hover {
+    border-color: var(--primary-cyan);
+    background: rgba(0, 240, 255, 0.05);
+}
+
+/* Metricas */
+.metric-box {
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+}
+.metric-number { font-size: 2rem; font-weight: bold; color: white; margin: 10px 0; }
+.metric-trend { color: #00ff88; font-size: 0.8rem; }
+
+/* Status Pill */
+.status-pill {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #333;
+    color: white;
+}
+
+/* =========================================
+   7. TABLAS RESPONSIVE (Modo Tarjeta Móvil)
+   ========================================= */
+.denia-table { width: 100%; border-collapse: collapse; }
+.denia-table th, .denia-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); }
+.denia-table th { color: var(--primary-cyan); }
+
+@media (max-width: 768px) {
+    .denia-table thead { display: none; }
+    .denia-table tr {
+        display: block;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 15px;
+    }
+    .denia-table td {
+        display: flex; justify-content: space-between; align-items: center;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding: 10px 0;
+    }
+    .denia-table td:last-child { border-bottom: none; }
+    
+    /* Etiquetas automáticas */
+    .denia-table td:nth-child(1)::before { content: "Producto"; color: var(--primary-cyan); font-weight: bold; }
+    .denia-table td:nth-child(2)::before { content: "ID"; color: #94a3b8; }
+    .denia-table td:nth-child(3)::before { content: "Precio"; color: #94a3b8; }
+    .denia-table td:nth-child(4)::before { content: "Stock"; color: #94a3b8; }
+}
+
+/* =========================================
+   8. TOAST NOTIFICATIONS
+   ========================================= */
+#toast-container {
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    display: flex; flex-direction: column; gap: 10px;
+}
+.toast {
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid var(--border-color);
+    color: white; padding: 15px 20px; border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    transform: translateX(120%); transition: transform 0.3s;
+}
+.toast.show { transform: translateX(0); }
+
+/* =========================================
+   9. RESPONSIVE GENERAL (Móvil)
+   ========================================= */
+@media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); } /* Ocultar sidebar */
+    .sidebar.active { transform: translateX(0); } /* Mostrar al activar */
+    
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px 15px;
+    }
+    
+    .mobile-menu-toggle { display: block; }
+    
+    /* Paneles Específicos */
+    .vip-layout { flex-direction: column; text-align: center; }
+    .form-grid { grid-template-columns: 1fr; }
+}
+
+@keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

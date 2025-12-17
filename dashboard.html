@@ -13,6 +13,8 @@
 </head>
 <body class="dashboard-body">
 
+    <div id="toast-container"></div>
+
     <div class="dashboard-container">
         
         <button class="mobile-menu-toggle" id="menu-toggle">☰</button>
@@ -228,40 +230,41 @@
                         <h3>📝 Gestión Manual de Precios</h3>
                         <button class="btn-secondary btn-sm">Exportar CSV</button>
                     </div>
-                    <div class="table-responsive"></div>
-                    <table class="denia-table">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>ID</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Auriculares Sony WH-1000XM5</td>
-                                <td>SNY-001</td>
-                                <td>$350.000</td>
-                                <td><span class="status-pill" style="background:#005c4b;">Alto</span></td>
-                                <td><button class="btn-sm">Editar</button></td>
-                            </tr>
-                            <tr>
-                                <td>Samsung Galaxy S24 Ultra</td>
-                                <td>SMG-999</td>
-                                <td>$1.200.000</td>
-                                <td><span class="status-pill" style="background:#8a2be2;">Bajo</span></td>
-                                <td><button class="btn-sm">Editar</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    
+                    <div class="table-responsive">
+                        <table class="denia-table">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>ID</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Auriculares Sony WH-1000XM5</td>
+                                    <td>SNY-001</td>
+                                    <td>$350.000</td>
+                                    <td><span class="status-pill" style="background:#005c4b;">Alto</span></td>
+                                    <td><button class="btn-sm">Editar</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Samsung Galaxy S24 Ultra</td>
+                                    <td>SMG-999</td>
+                                    <td>$1.200.000</td>
+                                    <td><span class="status-pill" style="background:#8a2be2;">Bajo</span></td>
+                                    <td><button class="btn-sm">Editar</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
             <div id="panel-wholesale" class="panel-section dash-grid hidden-panel">
-                <div class="dash-card" style="grid-column: 1/-1;">
+                <div class="dash-card">
                     <div class="card-header">
                         <h3>📦 Configuración Mayorista</h3>
                         <span class="status-pill" style="background:#8a2be2;">Activo</span>
@@ -285,9 +288,9 @@
             </div>
 
             <div id="panel-handoff" class="panel-section dash-grid hidden-panel">
-                <div class="dash-card" style="grid-column: 1/-1;">
+                <div class="dash-card">
                     <div class="card-header">
-                        <h3>👨‍💻 Derivación a Humano (Handoff)</h3>
+                        <h3>👨‍💻 Derivación a Humano</h3>
                     </div>
                     <div class="form-grid">
                         <div class="input-group full-width">
@@ -301,32 +304,42 @@
                                 <option>Lunes a Viernes 9-18hs</option>
                             </select>
                         </div>
+                        <div class="input-group">
+                            <label>WhatsApp Destino</label>
+                            <input type="text" placeholder="+54911...">
+                        </div>
                     </div>
+                    <button class="btn-primary btn-sm" style="margin-top:20px;">Guardar Cambios</button>
                 </div>
             </div>
 
             <div id="panel-custom-ai" class="panel-section dash-grid hidden-panel">
-                <div class="dash-card" style="grid-column: 1/-1;">
+                <div class="dash-card">
                     <div class="card-header">
                         <h3>🧠 Entrenamiento Personalizado (RAG)</h3>
                     </div>
-                    <div class="upload-area" style="padding:30px;">
-                        <span style="font-size:2rem;">📚</span>
-                        <p>Sube manuales de venta, PDFs técnicos o historial de chats.</p>
-                        <button class="btn-secondary btn-sm" style="margin-top:15px;">Subir Conocimiento</button>
+                    <div class="upload-placeholder">
+                        <div style="font-size: 3rem; margin-bottom: 15px;">📚</div>
+                        <h4 style="color:white; margin-bottom: 10px;">Arrastra tus archivos aquí</h4>
+                        <p style="color:#94a3b8; font-size: 0.9rem; margin-bottom: 20px;">
+                            Soporta PDFs, Manuales de Venta, Historial de Chats.
+                        </p>
+                        <button class="btn-secondary btn-sm">Seleccionar Archivos</button>
                     </div>
                 </div>
             </div>
 
             <div id="panel-vip" class="panel-section dash-grid hidden-panel">
-                <div class="dash-card" style="grid-column: 1/-1; border: 1px solid var(--primary-cyan);">
+                <div class="dash-card" style="border: 1px solid var(--primary-cyan);">
                     <div class="card-header"><h3>💎 Soporte Prioritario VIP</h3></div>
-                    <div style="display:flex; align-items:center; gap:20px;">
-                        <div style="font-size:3rem;">📞</div>
+                    <div class="vip-layout">
+                        <div class="vip-icon">📞</div>
                         <div>
-                            <h4>Línea Directa de Ingeniería</h4>
-                            <h2 style="color:var(--primary-cyan);">+54 9 11 1234-5678</h2>
-                            <p style="font-size:0.8rem; color:#666;">ID de Cliente: CORP-8821</p>
+                            <h4 style="color:#94a3b8; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;">Línea Directa de Ingeniería</h4>
+                            <h2 style="color:white; margin: 10px 0;">+54 9 11 1234-5678</h2>
+                            <p class="status-pill" style="display:inline-block; background: var(--primary-cyan); color:black; font-weight:bold;">
+                                ID Cliente: CORP-8821
+                            </p>
                         </div>
                     </div>
                 </div>
