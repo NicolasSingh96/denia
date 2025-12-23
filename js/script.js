@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. EFECTO MÁQUINA DE ESCRIBIR (H1 HERO) ---
     const textElement = document.getElementById('typewriter-text');
     if (textElement) {
-        const phrases = ["Convertí tu catálogo o simple lista de productos en un asistente de ventas por WhatsApp."]; 
+        const phrases = ["Convertí tu catálogo o lista de productos en un asistente de ventas por WhatsApp..."]; 
         let phraseIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
