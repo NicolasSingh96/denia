@@ -2844,3 +2844,124 @@ input:focus, textarea:focus {
         margin-bottom: 20px;
     }
 }
+
+/* =========================================
+   9. RESPONSIVE (MEDIA QUERIES) - CORREGIDO
+   ========================================= */
+
+/* --- TABLETS Y LAPTOPS PEQUEÑAS (1024px hacia abajo) --- */
+@media (max-width: 1024px) {
+    /* Ajustes generales de grillas */
+    .pricing-container { max-width: 800px; }
+    .pricing-card { flex: 1 1 45%; max-width: 45%; }
+    .pricing-card.featured { transform: scale(1); }
+    
+    /* Ajuste Header/Hero: Bajamos un poco más el Hero */
+    .hero { padding-top: 200px; } 
+}
+
+/* --- TABLETS (900px hacia abajo) --- */
+@media (max-width: 900px) {
+    /* 1. Ajuste Header */
+    header { height: 140px; }
+    .logo-img-main { height: 100%; }
+
+    /* 2. Ajuste Hero (Para que no se encime) */
+    /* Header mide 140px + 40px de aire = 180px */
+    .hero { padding-top: 180px; } 
+
+    /* Ajustes de contenido */
+    .hero-grid { grid-template-columns: 1fr; text-align: center; gap: 60px; }
+    .hero-visual { height: 400px; transform: scale(0.9); margin-top: -20px; }
+    .hero-text { order: 1; } /* Texto abajo, visual arriba (opcional) o normal */
+    .cta-group { justify-content: center; }
+    
+    .bento-grid { grid-template-columns: 1fr; }
+    .card-wide { grid-column: auto; flex-direction: column; text-align: center; }
+    h1.typewriter-container { min-height: 120px; font-size: 2.5rem; }
+}
+
+/* --- TABLET PEQUEÑA / MÓVIL GRANDE (768px hacia abajo) --- */
+@media (max-width: 768px) {
+    /* 1. Ajuste Header */
+    header { 
+        height: 120px; 
+        /* Oscurecemos un poco el fondo para leer mejor */
+        background: radial-gradient(
+            ellipse at top center, 
+            #000000 30%, 
+            rgba(138, 43, 226, 0.25) 70%, 
+            transparent 100%
+        );
+    }
+
+    /* 2. Ajuste Hero */
+    .hero { padding-top: 160px; }
+
+    /* Contenido */
+    .pricing-container { flex-direction: column; align-items: center; }
+    .pricing-card { width: 100%; max-width: 100%; margin-bottom: 20px; }
+    .pricing-card.featured { order: -1; transform: scale(1); }
+    .packs-grid { grid-template-columns: 1fr; }
+    
+    .card-chat { border-width: 4px; border-radius: 20px; transform: none; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .hero-visual { transform: scale(0.8); margin-left: -5%; }
+    .card-file { display: none; }
+}
+
+/* --- MÓVIL (600px hacia abajo) - AQUÍ ARREGLAMOS LA SUPERPOSICIÓN --- */
+@media (max-width: 600px) {
+    /* 1. HEADER: Cambiamos la estrategia de distribución */
+    header { 
+        height: 150px; 
+        padding: 0 20px;
+        /* Usamos space-between para separar Logo (Izq) y Botón (Der) */
+        justify-content: space-between; 
+        
+        background: radial-gradient(
+            ellipse at top center, 
+            #000000 40%, 
+            rgba(138, 43, 226, 0.4) 80%, 
+            transparent 100%
+        );
+    }
+    
+    /* 2. LOGO: Quitamos la posición absoluta para que no choque */
+    .logo-wrapper { 
+        position: relative; /* Ya no flota en el centro ignorando a los demás */
+        left: auto; 
+        top: auto; 
+        transform: none; /* Quitamos el centrado forzado */
+        
+        width: auto; /* Que ocupe lo que necesite la imagen */
+        height: 100%;
+        max-width: 60%; /* Para dejarle espacio al botón */
+        
+        justify-content: flex-start; /* Alineado a la izquierda */
+    }
+    
+    .logo-img-main { 
+        height: 80%; /* Un pelín más chico para dar aire */
+        /* Ajustamos la máscara para que no corte el lado izquierdo ahora que está al borde */
+        -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    }
+
+    /* 3. BOTÓN: Ajuste de tamaño */
+    .nav-btn {
+        padding: 8px 14px;
+        font-size: 0.75rem;
+        white-space: nowrap; /* Que no se rompa el texto */
+    }
+
+    /* 4. HERO: Bajamos el contenido */
+    /* Header 100px + espacio extra */
+    .hero { 
+        padding-top: 140px; 
+        min-height: auto; /* Quitamos altura mínima forzada en móvil */
+        padding-bottom: 60px;
+    }
+    
+    /* Texto más chico en móvil */
+    h1.typewriter-container { font-size: 2rem; min-height: 100px; }
+}
