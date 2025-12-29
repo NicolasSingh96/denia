@@ -61,7 +61,6 @@ body:not(.dashboard-body)>header {
     width: 100%;
     z-index: 99999 !important;
     backdrop-filter: blur(10px);
-    background: rgba(5, 5, 16, 0.8);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
@@ -140,232 +139,180 @@ body:not(.dashboard-body)>header {
 
 /* --- LOGO DENIA: REACTOR DE ENERGÍA ESTABLE --- */
 
-/* 1. El Contenedor Principal (Define el área de efecto) */
-.logo-wrapper {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 110px;
-    /* Tamaño contenido para el header */
-    height: 110px;
-}
-
-/* 2. La Imagen del Logo (Estática y Protagonista) */
-.logo-img-main {
-    height: 65px;
-    /* Tamaño grande pero equilibrado */
-    width: auto;
-    object-fit: contain;
-    position: relative;
-    z-index: 10;
-    /* Siempre encima de todo */
-
-    /* Sombra sutil para despegarlo del fondo brillante */
-    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.8));
-
-    /* Flotación muy suave apenas perceptible para darle vida */
-    animation: soft-float 4s ease-in-out infinite alternate;
-}
-
-/* Animación de flotación sutil */
-@keyframes soft-float {
-    0% {
-        transform: translateY(0);
-    }
-
-    100% {
-        transform: translateY(-5px);
-    }
-}
-
 /* =========================================
-   EFECTOS DE ENERGÍA (Sutiles y de fondo)
+   2. HEADER FINAL (Con Máscara de Fusión)
    ========================================= */
 
-.neural-effect,
-.lightning-bolts {
+header {
+    display: flex;
+    justify-content: flex-end; /* Botón a la derecha */
+    align-items: center;
+    padding: 0 5%;
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+    /* ALTURA GRANDE */
+    height: 180px; 
+    z-index: 1000;
+
+    /* FONDO NEBULA VIOLETA */
+    /* Centro negro (detrás del logo) -> Violeta -> Transparente */
+    background: radial-gradient(
+        ellipse at top center, 
+        #000000 30%,              
+        rgba(138, 43, 226, 0.45) 60%, 
+        transparent 95%          
+    );
+
+    border: none;
+    box-shadow: none; 
+    backdrop-filter: blur(4px);
+}
+
+/* WRAPPER DEL LOGO */
+.logo-wrapper {
     position: absolute;
-    top: 50%;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
-    pointer-events: none;
-}
-
-/* --- A. EL NÚCLEO PULSANTE (Fondo Integrador) --- */
-/* Usamos .neural-effect para crear el brillo de fondo */
-.neural-effect {
-    width: 140%;
-    height: 140%;
-    z-index: 1;
-    /* Detrás del logo */
-
-    /* Un degradado radial suave que hace de "aura" */
-    background: radial-gradient(circle, var(--primary-cyan) 0%, rgba(138, 43, 226, 0.2) 40%, transparent 70%);
-    opacity: 0.4;
-    filter: blur(15px);
-    /* Muy desenfocado para que sea suave */
-
-    /* Pulso lento de intensidad */
-    animation: core-pulse 4s ease-in-out infinite alternate;
-}
-
-@keyframes core-pulse {
-    0% {
-        opacity: 0.3;
-        scale: 0.9;
-    }
-
-    100% {
-        opacity: 0.6;
-        scale: 1.1;
-        background: radial-gradient(circle, var(--secondary-violet) 0%, rgba(0, 240, 255, 0.3) 50%, transparent 70%);
-    }
-}
-
-
-/* --- B. ANILLOS DE ENERGÍA FINOS (Detalle Tecnológico) --- */
-/* Usamos .lightning-bolts para los aros finos que giran */
-.lightning-bolts {
-    width: 100%;
+    
+    /* Ancho amplio para que la máscara no corte antes de tiempo */
+    width: 400px; 
     height: 100%;
-    z-index: 2;
-    /* Entre el fondo y el logo */
-}
-
-.lightning-bolts::before,
-.lightning-bolts::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 1px solid transparent;
-    /* Borde muy fino */
-    animation: slow-orbit linear infinite;
-}
-
-/* Anillo Cyan (Gira lento) */
-.lightning-bolts::before {
-    border-top-color: rgba(0, 240, 255, 0.7);
-    /* Semi transparente */
-    border-bottom-color: rgba(0, 240, 255, 0.3);
-    animation-duration: 8s;
-}
-
-/* Anillo Violeta (Gira más lento y al revés) */
-.lightning-bolts::after {
-    width: 90%;
-    height: 90%;
-    /* Un poco más chico */
-    border-left-color: rgba(138, 43, 226, 0.7);
-    border-right-color: rgba(138, 43, 226, 0.3);
-    animation-duration: 12s;
-    animation-direction: reverse;
-}
-
-@keyframes slow-orbit {
-    from {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-
-    to {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
-
-/* Limpieza de estilos anteriores si quedaron */
-.neural-effect::before,
-.neural-effect::after {
-    display: none;
-}
-
-.header-left,
-.header-right {
-    flex: 1;
+    
     display: flex;
     align-items: center;
-}
-
-.header-right {
-    justify-content: flex-end;
-}
-
-.header-center {
-    flex: 2;
-    display: flex;
     justify-content: center;
-    text-align: center;
+    
+    background: transparent;
+    z-index: 10;
 }
 
+/* IMAGEN DEL LOGO (Efecto Máscara Fuerte) */
+.logo-img-main {
+    height: 100%;  
+    width: auto;   
+    max-width: 100%;
+    object-fit: contain;
+
+    /* 1. MÁSCARA MÁS AGRESIVA */
+    /* Antes empezaba en 50%, ahora en 30%. El desvanecimiento es mucho más notable. */
+    -webkit-mask-image: radial-gradient(
+        ellipse at center, 
+        black 30%,           /* Solo el centro (30%) es totalmente sólido */
+        rgba(0,0,0,0.6) 55%, /* A mitad de camino ya es muy transparente */
+        transparent 85%      /* Los bordes desaparecen por completo antes de llegar al final */
+    );
+    mask-image: radial-gradient(
+        ellipse at center, 
+        black 30%, 
+        rgba(0,0,0,0.6) 55%, 
+        transparent 85%
+    );
+
+    /* 2. FUSIÓN Y LIMPIEZA */
+    mix-blend-mode: screen; 
+    border: none;
+    border-radius: 0;
+    
+    /* 3. BRILLO NEÓN INTENSO (Compensa la transparencia) */
+    filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.8)) 
+            drop-shadow(0 0 40px rgba(138, 43, 226, 0.6));
+    
+    /* Animación */
+    animation: energy-pulse 4s ease-in-out infinite;
+    transition: transform 0.4s ease, -webkit-mask-image 0.4s ease;
+}
+
+/* Animación Respiración */
+@keyframes energy-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.95; }
+    50% { transform: scale(1.02); opacity: 1; }
+}
+
+/* BOTÓN LOGIN */
 .nav-btn {
-    color: white;
-    text-decoration: none;
-    padding: 8px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--primary-cyan);
+    color: var(--primary-cyan);
+    padding: 10px 28px;
     border-radius: 50px;
-    font-size: 0.9rem;
-    background: rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
     transition: 0.3s;
-    white-space: nowrap;
+    backdrop-filter: blur(4px);
 }
 
 .nav-btn:hover {
-    border-color: var(--primary-cyan);
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+    background: var(--primary-cyan);
+    color: #000;
+    box-shadow: 0 0 20px var(--primary-cyan);
 }
 
-/* --- TEXTOS DE MARCA --- */
-.brand-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    line-height: 1;
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    header { height: 140px; }
+    .logo-img-main { height: 100%; }
 }
 
-.brand-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin: 0;
-    background: linear-gradient(135deg, #e056fd 0%, #686de0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 10px rgba(104, 109, 224, 0.3));
-    letter-spacing: -1px;
+@media (max-width: 600px) {
+    header { 
+        height: 100px; 
+        background: radial-gradient(
+            ellipse at top center, 
+            #000000 40%, 
+            rgba(138, 43, 226, 0.4) 80%, 
+            transparent 100%
+        );
+    }
+    .logo-wrapper { width: 200px; }
+    .logo-img-main { height: 100%; }
 }
 
-.ia-highlight {
-    background: linear-gradient(135deg, #00f0ff 0%, #8a2be2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.6)) drop-shadow(0 0 10px rgba(138, 43, 226, 0.4));
-    animation: neon-pulse 3s infinite alternate;
-}
-
-.brand-subtitle {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.8rem;
+/* BOTÓN LOGIN (Flotando a la derecha) */
+.nav-btn {
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para leerse */
+    border: 1px solid var(--primary-cyan);
+    color: var(--primary-cyan);
+    padding: 10px 30px;
+    border-radius: 50px;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-top: 4px;
-    background: linear-gradient(90deg, #ffffff, #94a3b8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    backdrop-filter: blur(5px);
 }
 
-@keyframes neon-pulse {
-    0% {
-        filter: drop-shadow(0 0 2px rgba(0, 240, 255, 0.4));
-    }
+.nav-btn:hover {
+    background: var(--primary-cyan);
+    color: #000;
+    box-shadow: 0 0 20px var(--primary-cyan);
+}
 
-    100% {
-        filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.9));
+/* Ajuste Móvil */
+@media (max-width: 768px) {
+    header { height: 120px; }
+    .logo-img-main { height: 100px; }
+    /* En móvil oscurecemos un poco más el fondo para leer el menú */
+    header {
+        background: radial-gradient(
+            ellipse at top center, 
+            #000000 30%, 
+            rgba(138, 43, 226, 0.2) 70%, 
+            transparent 100%
+        );
     }
 }
+
+.nav-btn {
+    color: var(--primary-cyan); text-decoration: none; padding: 8px 20px; border: 1px solid var(--primary-cyan);
+    border-radius: 50px; font-size: 0.9rem; font-weight: 600; transition: 0.3s;
+}
+.nav-btn:hover { background: var(--primary-cyan); color: #000; box-shadow: 0 0 20px var(--primary-cyan); }
 
 /* --- HERO SECTION --- */
 .hero {
@@ -2852,50 +2799,6 @@ input:focus, textarea:focus {
 }
 
 @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* --- AJUSTE COMPACTO PARA EL HEADER (Landing Page) --- */
-
-/* 1. Reducir espacio vertical del contenedor del menú */
-header, nav, .navbar {
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-    min-height: auto !important; /* Evitar alturas mínimas forzadas */
-}
-
-/* 2. Achicar el contenedor del Logo */
-header .logo-wrapper, 
-.navbar .logo-wrapper {
-    height: 60px !important; /* Forzamos una altura menor (antes era 100px o más) */
-    width: auto !important; /* Que se ajuste al contenido */
-    margin-bottom: 0 !important; /* Eliminamos márgenes extra abajo */
-    padding: 0 !important;
-    transform: none !important; /* Quitamos escalas raras si las hubiera */
-    display: flex;
-    align-items: center;
-}
-
-/* 3. Reducir la imagen del Logo */
-header .logo-img-main,
-.navbar .logo-img-main {
-    height: 40px !important; /* Tamaño estándar de barra de navegación */
-    width: auto;
-    /* Ajustamos el efecto Neon para que no sea tan expansivo aquí */
-    filter: drop-shadow(0 0 5px var(--primary-cyan)); 
-}
-
-/* 4. Si tienes texto debajo del logo, lo ocultamos o pegamos más */
-header .logo-text, 
-.navbar p {
-    display: none; /* Opcional: Ocultar slogan en el menú para ganar espacio */
-}
-
-/* 5. Ajuste para Móvil (Celulares) */
-@media (max-width: 768px) {
-    header .logo-img-main {
-        height: 35px !important; /* Aún más chico en celular */
-    }
-}
-
 /* =========================================
    LOGO DASHBOARD (Sidebar) - TAMAÑO AUMENTADO
    ========================================= */
